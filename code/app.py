@@ -9,7 +9,7 @@ app.config['SECRET_KEY'] ="super secret key"
 config = {
         'user': 'root',
         'password': 'secret',
-        'host': 'localhost',
+        'host': 'mariadb',
         'port': 3306,
         'database': 'skoly'
     }
