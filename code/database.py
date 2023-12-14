@@ -1,7 +1,5 @@
 import mariadb
 
-
-
 def vytvor_db():
     config = {
             'user': 'root',
