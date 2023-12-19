@@ -2,13 +2,24 @@
 <html>
 
 <head>
+    <meta charset="uft-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <Title>Hlavní stránka</Title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
 <body>
-    <div class="hl_nazev">
-        <h1>CodePort</h1>
+    <div class="header">
+        <img class="logo_left" src="../static/images/ujep.png" alt="Logo_ujep">
+        <img class="logo" src="../static/images/logo.png" alt="Logo">
+        <img class="logo_right" src="../static/images/prf.png" alt="Logo_prf">
+    </div>
+    <div class="content">
+        <form>
+            <input type="text" placeholder="Klíč studenta">
+            <input type="text" placeholder="Místnost">
+            <button type="submit">Najít</button>
+        </form>
     </div>
 </body>
 
