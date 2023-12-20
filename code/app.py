@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template, redirect, jsonify
+from flask import render_template, redirect, jsonify, request, flash
 import mariadb
 import database
 app = Flask(__name__)
@@ -24,10 +24,16 @@ connection = mariadb.connect(**config)
 cursor = mariadb.Cursor(connection)
 #Vytvoří druhý connection do mariaDB přímo do db a vytvoří tabulky
 database.vytvor_tabulky(cursor)
+cursor.close()
 
-@app.route('/')
-@app.route('/index')
-def index():
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/pristup', methods=['GET', 'POST'])
+def zadani_klice_student():
+    if request.method == "POST":
+        #Omezit v budoucnu SQL Injection
+        klic_student = request.form['klic_student']
+        mistnost = request.form['mistnost']
+        flash(f'{klic_student} | {mistnost}', category='info')
     return render_template('index.html')
 
 @app.errorhandler(404)

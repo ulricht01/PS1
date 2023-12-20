@@ -14,11 +14,12 @@
         <img class="logo" src="../static/images/logo.png" alt="Logo">
         <img class="logo_right" src="../static/images/prf.png" alt="Logo_prf">
     </div>
+    {% include 'message.html' %}
     <div class="content">
-        <form>
-            <input type="text" placeholder="Klíč studenta">
-            <input type="text" placeholder="Místnost">
-            <button type="submit">Najít</button>
+        <form method="post">
+            <input type="text" placeholder="Klíč studenta" name="klic_student">
+            <input type="text" placeholder="Místnost" name="mistnost">
+            <button type="submit" name="potvrdit">Najít</button>
         </form>
     </div>
 </body>
