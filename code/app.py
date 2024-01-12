@@ -36,6 +36,12 @@ def zadani_klice_student():
         flash(f'{klic_student} | {mistnost}', category='info')
     return render_template('index.html')
 
+@app.route('/rooms', methods=['GET', 'POST'])
+def rooms():
+    rooms = [{"name":"Pavel Beránek", "link":"https://github.com/pavelberanek91"}, {"name":"Pavel Jaššo", "link":"fividfub"}, 
+            {"name":"Adam Heger", "link":"fividfub"}, {"name":"Místnost 1", "link":"fividfub"}]
+    return render_template('rooms.html', rooms= reversed(rooms))
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
