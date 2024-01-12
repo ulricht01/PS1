@@ -1,20 +1,6 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="uft-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <Title>Hlavní stránka</Title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-
-<body>
-    <div class="header">
-        <img class="logo_left" src="../static/images/ujep.png" alt="Logo_ujep">
-        <img class="logo" src="../static/images/logo.png" alt="Logo">
-        <img class="logo_right" src="../static/images/prf.png" alt="Logo_prf">
-    </div>
-    {% include 'message.html' %}
+{% extends "template.html" %}
+{% block title %} Hlavní stránka {% endblock %}
+{% block content %}
     <div class="content">
         <form method="post">
             <text_klic> Klíč studenta </text_klic>
@@ -24,7 +10,4 @@
             <button1 type="submit" name="potvrdit">Najít</button1>
         </form>
     </div>
-</body>
-
-
-</html>
+{% endblock %}
