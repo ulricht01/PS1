@@ -9,9 +9,9 @@
 
 <body>
     <nav class="header">
-        <img class="logo_left" src="../static/images/ujep.png" alt="Logo_ujep">
-        <img class="logo" src="../static/images/logo.png" alt="Logo">
-        <img class="logo_right" src="../static/images/prf.png" alt="Logo_prf">
+        <img class="logo_left" src="{{ url_for('static', filename='images/ujep.png') }}" alt="Logo_ujep">
+        <img class="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+        <img class="logo_right" src="{{ url_for('static', filename='images/prf.png') }}" alt="Logo_prf">
     </nav>
     <main>
         {% block content %}{% endblock %}
