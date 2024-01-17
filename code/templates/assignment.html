@@ -1,10 +1,14 @@
 {% extends "template.html" %}
-{% block title%}Úkoly{% endblock %}
+{% block title%}Úkol{% endblock %}
 {% block content %} 
-    {% for task in tasks %}
-        <div>
-            <h5>{{task["name"]}}</h5>
-            <p>{{task["description"]}}</p>
-        </div>
-    {% endfor %}
+    <h2>{{name}}</h2>
+    <p>{{description}}</p>
+    <form action="/submit" method="post" enctype="multipart/form-data">
+        <!-- Vložení lokálního souboru -->
+        <label for="fileInput">Vyberte soubor:</label>
+        <input type="file" id="fileInput" name="fileInput">
+
+        <!-- Tlačítko pro odeslání formuláře -->
+        <button type="submit">Odeslat</button>
+    </form>
 {% endblock %}

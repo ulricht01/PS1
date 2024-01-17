@@ -46,7 +46,16 @@ def rooms(id_studenta): #podle id si z databáze nataháme mísnosti a pak je p�
 def assignments(id_studenta, id_mistnosti):
     tasks = [{"name": "úkol 1", "description": "úkol 1"}, {"name": "úkol 2", "description": "úkol 2"}, 
              {"name": "úkol 3", "description": "úkol 3"}]
-    return render_template('assignment.html', tasks=tasks)
+    return render_template('assignments.html', tasks=tasks)
+
+@app.route('/<id_studenta>/<id_mistnosti>/<id_assignments>/assignment', methods=['GET', 'POST'])
+def assignment(id_studenta, id_mistnosti, id_assignments):
+    nazev = "úkol 1"
+    popis = "Tohle je popis úkolu protože pořád nevim jak budu fetchovat data"
+    if request.method == "POST":
+        f = request.files["fileInput"]
+    else:
+        return render_template('assignment.html', name=nazev, description=popis)
 
 @app.errorhandler(404)
 def page_not_found(e):

@@ -1,0 +1,10 @@
+{% extends "template.html" %}
+{% block title%}Úkoly{% endblock %}
+{% block content %} 
+    {% for task in tasks %}
+        <div>
+            <h5>{{task["name"]}}</h5>
+            <p>{{task["description"]}}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
