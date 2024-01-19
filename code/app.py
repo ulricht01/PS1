@@ -52,6 +52,18 @@ def admin():
             database.pridej_ucitele(cursor, klic_ucitel, id_skoly)
             connection.commit()
             connection.close()
+        elif 'odstran_skolu' in request.form:
+            id_skoly = int(request.form['id_skoly_odstr'])
+            connection, cursor = database.otevri_spojeni()
+            database.odstran_skolu(cursor, id_skoly)
+            connection.commit()
+            connection.close()
+        elif 'odstran_ucitel' in request.form:
+            id_ucitel = int(request.form['id_ucitel_odstr'])
+            connection, cursor = database.otevri_spojeni()
+            database.odstran_ucitele(cursor, id_ucitel)
+            connection.commit()
+            connection.close()
     return render_template('admin.html')
 
 @app.errorhandler(404)

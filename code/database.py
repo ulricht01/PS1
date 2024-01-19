@@ -102,3 +102,12 @@ def pridej_skolu(cursor, nazev_skola):
 def pridej_ucitele(cursor, klic_ucitel, id_skoly):
     cursor.execute(""" INSERT INTO ucitele (klic, id_skola) VALUES (%s, %d)""", (klic_ucitel, id_skoly,))
     cursor.close()
+
+def odstran_ucitele(cursor,id_ucitel):
+    cursor.execute(""" DELETE FROM ucitele WHERE id_ucitel = (%d)""", (id_ucitel,))
+    cursor.close()
+
+def odstran_skolu(cursor, id_skola):
+    cursor.execute(""" DELETE FROM skoly WHERE id_skola = (%d)""", (id_skola,))
+    cursor.close()
+
