@@ -1,5 +1,19 @@
 import mariadb
 
+def otevri_spojeni():
+    config = {
+        'user': 'root',
+        'password': 'secret',
+        'host': 'mariadb',
+        #'host': 'localhost',
+        'port': 3306,
+        'database': 'skoly'
+    }
+    connection = mariadb.connect(**config)
+    cursor = mariadb.Cursor(connection)
+    return connection, cursor
+    
+
 def vytvor_db():
     config = {
             'user': 'root',
@@ -80,3 +94,11 @@ def vytvor_tabulky(cursor):
                                     ON DELETE CASCADE
                                     ON UPDATE RESTRICT
                             ) ENGINE=InnoDB;""")
+    
+def pridej_skolu(cursor, nazev_skola):
+    cursor.execute(""" INSERT INTO skoly (nazev_skola) VALUES (%s)""", (nazev_skola,))
+    cursor.close()
+
+def pridej_ucitele(cursor, klic_ucitel, id_skoly):
+    cursor.execute(""" INSERT INTO ucitele (klic, id_skola) VALUES (%s, %d)""", (klic_ucitel, id_skoly,))
+    cursor.close()

@@ -110,7 +110,7 @@ input[type="text_mistnost"] {
     border-color: transparent;
 }
 
-button1 {
+button[name="potvrdit"] {
     font-family: 'K2D', sans-serif;
     font-style: normal;
     font-weight: bold;
@@ -121,10 +121,10 @@ button1 {
     border-radius: 15px;
     background-color: #95fff9;
     cursor: pointer;
-    
+
 }
 
-button1:hover {
+button[name="potvrdit"]:hover {
     background-color: darkcyan;
 }
 
@@ -141,4 +141,28 @@ button1:hover {
     font-size: 20px;
     size: 30px;
     border: 1px solid black;
+}
+
+.toggle-input {
+    display: none;
+}
+
+/* Základní styl pro tlačítka */
+.toggle-label {
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    background-color: #3498db;
+    color: #fff;
+    display: inline-block;
+}
+
+/* Skrytý formulář při výchozím stavu */
+.hidden-form {
+    display: none;
+}
+
+/* Zobrazení formuláře při vybraném vstupním radio prvku */
+.toggle-input:checked+.toggle-label+.form-container .hidden-form {
+    display: block;
 }

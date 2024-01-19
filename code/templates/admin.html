@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="uft-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <Title>Hlavní stránka</Title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <div class="hl_nazev">
+        <h1>Administrative</h1>
+    </div>
+
+    <div class="administrative">
+        <form method="post">
+            <h2> Přidej školu </h2>
+            <label for="nazev_skoly">Název školy:</label>
+            <input type="text" id="nazev_skoly" name="nazev_skoly" required>
+            <br>
+            <input type="submit" value="Potvrdit" name="pridat_skolu">
+        </form>
+
+        <form method="post">
+            <h2> Přidej učitele </h2>
+            <label for="id_skola">ID Školy:</label>
+            <input type="number" id="id_skola" name="id_skola" min="0" required>
+            <br>
+            <input type="submit" value="Potvrdit" name="pridat_ucitel">
+        </form>
+</body>
+
+
+</html>
