@@ -41,7 +41,7 @@ body {
 .content {
     margin-top: 150px;
     /* Adjust distance from header */
-    width: 50%;
+    width: 100%;
     /* Adjust width of rectangle */
     height: 350px;
     /* Adjust height of rectangle */
