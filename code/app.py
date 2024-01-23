@@ -66,6 +66,19 @@ def admin():
             connection.close()
     return render_template('admin.html')
 
+@app.route("/create-room")
+def create_room():
+    return render_template('create_room.html')
+
+@app.route("/create-assignment")
+def create_assignment():
+    return render_template('create_assignment.html')
+
+@app.route("/rooms")
+def rooms():
+    return render_template('assignments.html')
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404

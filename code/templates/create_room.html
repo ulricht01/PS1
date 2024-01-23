@@ -1,0 +1,16 @@
+{% extends "template.html" %}
+{% block title %}Tvorba místnosti{% endblock %}
+{% block content %}
+    <form action="/submit" method="post">
+        <!-- Název úkolu -->
+        <label for="taskName">Název místnosti:</label>
+        <input type="text" id="taskName" name="taskName" required>
+
+        <!-- Popis úkolu -->
+        <label for="taskDescription">Popis místnosti:</label>
+        <textarea id="taskDescription" name="taskDescription" rows="3" required></textarea>
+
+        <!-- Tlačítko pro odeslání formuláře -->
+        <button type="submit">Odeslat</button>
+    </form>
+{% endblock %}

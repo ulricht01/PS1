@@ -1,0 +1,19 @@
+{% extends "template.html" %}
+{% block title %}Tvorba úkolu{% endblock %}
+{% block content %}
+    <h2>Název úkolu</h2>
+    <p>Zadejte název a popis úkolu:</p>
+
+    <form action="/submit" method="post">
+        <!-- Název úkolu -->
+        <label for="taskName">Název úkolu:</label>
+        <input type="text" id="taskName" name="taskName" required>
+
+        <!-- Popis úkolu -->
+        <label for="taskDescription">Popis úkolu:</label>
+        <textarea id="taskDescription" name="taskDescription" rows="4" required></textarea>
+
+        <!-- Tlačítko pro odeslání formuláře -->
+        <button type="submit">Odeslat</button>
+    </form>
+{% endblock %}

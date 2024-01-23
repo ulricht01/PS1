@@ -1,10 +1,12 @@
 {% extends "template.html" %}
 {% block title%}Úkoly{% endblock %}
 {% block content %} 
+    <!-- Cyklus pro výpis úkolů -->
     {% for task in tasks %}
         <div>
             <h5>{{task["name"]}}</h5>
             <p>{{task["description"]}}</p>
         </div>
     {% endfor %}
+    <a href="{{ url_for('create_room') }}">Vytvořit novou místnost</a>
 {% endblock %}
