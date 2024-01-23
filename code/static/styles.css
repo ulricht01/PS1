@@ -28,10 +28,15 @@ body {
 
 .logo {
     width: 240px;
-    /* Adjust logo width */
     height: auto;
-    /* Adjust logo height */
 }
+
+.logo1 {
+    width: 800px;
+    height: 600px;
+    margin-left: 140px;
+}
+
 
 .logo_right {
     width: 220px;
@@ -103,6 +108,12 @@ input[type="text_klic"] {
     border-color: transparent;
 }
 
+h2 {
+    font-family: 'K2D', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 40px;
+}
 
 input[type="text_mistnost"] {
     background: #D6D6D6;
