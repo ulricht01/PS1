@@ -100,14 +100,31 @@ def pridej_skolu(cursor, nazev_skola):
     cursor.close()
 
 def pridej_ucitele(cursor, klic_ucitel, id_skoly):
-    cursor.execute(""" INSERT INTO ucitele (klic, id_skola) VALUES (%s, %d)""", (klic_ucitel, id_skoly,))
+    cursor.execute(""" INSERT INTO ucitele (klic, id_skola) VALUES (%s, %s)""", (klic_ucitel, id_skoly,))
     cursor.close()
 
 def odstran_ucitele(cursor,id_ucitel):
-    cursor.execute(""" DELETE FROM ucitele WHERE id_ucitel = (%d)""", (id_ucitel,))
+    cursor.execute(""" DELETE FROM ucitele WHERE id_ucitel = (%s)""", (id_ucitel,))
     cursor.close()
 
 def odstran_skolu(cursor, id_skola):
-    cursor.execute(""" DELETE FROM skoly WHERE id_skola = (%d)""", (id_skola,))
+    cursor.execute(""" DELETE FROM skoly WHERE id_skola = (%s)""", (id_skola,))
     cursor.close()
+
+def pridej_zaka(cursor, email, klic, id_skola):
+    cursor.execute(""" INSERT INTO studenti (email, klic, id_skola) VALUES (%s, %s, %s)""", (email, klic, id_skola,))
+    cursor.close() 
+
+def pridej_ukol(cursor, nazev_ukol, popis, id_mistnost):
+    cursor.execute(""" INSERT INTO ukoly (nazev_ukol, popis, id_mistnost) VALUES (%s, %s, %s)""", (nazev_ukol, popis, id_mistnost,))
+    cursor.close() 
+
+def pridej_mistnost(cursor, nazev_mistnosti, popis, id_ucitel):
+    cursor.execute(""" INSERT INTO mistnosti (nazev_mistnosti, popis, id_ucitel) VALUES (%s, %s, %s)""", (nazev_mistnosti, popis, id_ucitel,))
+    cursor.close() 
+
+def odevzdej_ukol(cursor, file, id_ukol, id_mistnost, id_student):
+    cursor.execute(""" INSERT INTO mistnosti (file, id_ukol, id_mistnost, id_student) VALUES (%s, %s, %s, %s)""", (file, id_ukol, id_mistnost, id_student,))
+    cursor.close() 
+
 

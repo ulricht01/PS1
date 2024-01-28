@@ -66,12 +66,30 @@ def admin():
             connection.close()
     return render_template('admin.html')
 
+@app.route('/create-room', methods=['GET', 'POST'])
 @app.route("/create-room")
 def create_room():
+    if request.method == 'POST':
+        nazev_mistnosti = request.form['roomName']
+        popis_mistnosti = request.form['roomDescription']
+        connection, cursor = database.otevri_spojeni()
+        current_ucitel = 14
+        database.pridej_mistnost(cursor, nazev_mistnosti, popis_mistnosti, current_ucitel) # Current ucitel bude hodnota ucitele, pro teď nastavena hodnota testovaciho ucitele
+        connection.commit()
+        connection.close()
     return render_template('create_room.html')
 
+@app.route('/create-assignment', methods=['GET', 'POST'])
 @app.route("/create-assignment")
 def create_assignment():
+    if request.method == 'POST':
+        nazev_ukolu = request.form['taskName']
+        popis_ukolu = request.form['taskDescription']
+        connection, cursor = database.otevri_spojeni()
+        current_mistnost = 3
+        database.pridej_ukol(cursor, nazev_ukolu, popis_ukolu, current_mistnost) # Current mistnost bude hodnota mistnosti, pro teď nastavena hodnota testovaci mistnosti
+        connection.commit()
+        connection.close()
     return render_template('create_assignment.html')
 
 @app.route("/rooms")
