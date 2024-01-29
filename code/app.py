@@ -96,6 +96,15 @@ def create_assignment():
 def rooms():
     return render_template('assignments.html')
 
+@app.route("/test", methods=['GET', 'POST'])
+def test():
+    lines = [{"id":"ahoj"}, {"id":"cus"}, {"id":"nazdar"}, {"id":"chcipni"}]
+    if request.method == "POST":
+        selected_users = request.form.getlist('selectedUsers[]')
+        for user in selected_users:
+            print(user)
+    else:        
+        return render_template('test.html', lines= lines)
 
 @app.errorhandler(404)
 def page_not_found(e):

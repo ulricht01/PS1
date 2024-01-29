@@ -2,11 +2,9 @@
 {% block title%}Místnosti{% endblock %}
 {% block content %} 
     {% for room in rooms %}
-        <button type="button" onclick="redirectToURL('{{ room.link }}')"> {{room["name"]}} </button>
-        <script>
-            function redirectToURL(link) {
-                window.location.href = link;
-            }
-        </script>
+        <div id="room">       
+            <!-- Tlačítko pro přesměrování na danou místnost -->
+            <a href="{{ url_for('show_room', room_id=room.id) }}">Místnost: {{ room.name }}</a>
+        </div>
     {% endfor %}
 {% endblock %}

@@ -1,0 +1,5 @@
+1) SQL injection: Jediná správná ochrana proti tomuto útoku je nevkládat proměnné do dotazů vůbec a používat tzv.
+Prepared Statements (parametrizované dotazy) 
+viz: https://www.itnetwork.cz/php/bezpecnost/jak-se-branit-proti-sql-injection
+2) soubory pouze s určitými koncovkami (ipynb, py apod)
+3) velikost souboru

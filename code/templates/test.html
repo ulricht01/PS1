@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Lines</title>
+</head>
+<body>
+    <form action="/test" method="post">
+        <label for="selectedUsers">Vyberte uživatele:</label>
+        <select id="selectedUsers" name="selectedUsers[]" multiple>
+            {% for user in users %}
+                <option value="{{ user.id }}">{{ user.id }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Přidat uživatele do místnosti</button>
+    </form>
+</body>
+</html>
