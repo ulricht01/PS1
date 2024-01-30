@@ -176,3 +176,17 @@ def check_keys_student(klic):
     connection.commit()
     connection.close()
     return result
+
+def vypis_skoly():
+    connection, cursor = otevri_spojeni()
+    cursor.execute(""" SELECT * FROM skoly""")
+    result = cursor.fetchall()
+    connection.close()
+    return result
+
+def vypis_ucitele():
+    connection, cursor = otevri_spojeni()
+    cursor.execute("""SELECT * FROM ucitele""")
+    result = cursor.fetchall()
+    connection.close()
+    return result

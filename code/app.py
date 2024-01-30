@@ -35,7 +35,7 @@ def zadani_klice_student():
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
-    if request.method=='POST':
+    if request.method == 'POST':
         if 'pridat_skolu' in request.form:
             nazev_skoly = request.form['nazev_skoly']
             database.pridej_skolu(nazev_skoly)
@@ -49,6 +49,16 @@ def admin():
         elif 'odstran_ucitel' in request.form:
             id_ucitel = int(request.form['id_ucitel_odstr'])
             database.odstran_ucitele(id_ucitel)
+
+        if 'zobrazit_skoly' in request.form:
+            schools = database.vypis_skoly()
+            print(schools)
+            return render_template('admin.html', schools=schools)
+        
+        if 'zobrazit_ucitele' in request.form:
+            teachers = database.vypis_ucitele()
+            print(teachers)
+            return render_template('admin.html', teachers=teachers)
 
     return render_template('admin.html')
 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <Title>Hlavní stránka</Title>
+    <title>Hlavní stránka</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='admin.css') }}">
 </head>
 
@@ -12,39 +12,97 @@
     <div class="hl_nazev">
         <h1>Administrative</h1>
     </div>
+    <div class="container">
+        <div class="administrative">
+            <form method="post">
+                <h2> Přidej školu </h2>
+                <label for="nazev_skoly">Název školy:</label>
+                <input type="text" id="nazev_skoly" name="nazev_skoly" required>
+                <br>
+                <input type="submit" value="Potvrdit" name="pridat_skolu">
+            </form>
 
-    <div class="administrative">
-        <form method="post">
-            <h2> Přidej školu </h2>
-            <label for="nazev_skoly">Název školy:</label>
-            <input type="text" id="nazev_skoly" name="nazev_skoly" required>
-            <br>
-            <input type="submit" value="Potvrdit" name="pridat_skolu">
-        </form>
 
-        <form method="post">
-            <h2> Přidej učitele </h2>
-            <label for="id_skola">ID Školy:</label>
-            <input type="number" id="id_skola" name="id_skola" min="0" required>
-            <br>
-            <input type="submit" value="Potvrdit" name="pridat_ucitel">
-        </form>
+            <form method="post">
+                <input type="submit" value="Zobrazit" name="zobrazit_skoly">
+            </form>
 
-        <form method="post">
-            <h2> Odstraň školu </h2>
-            <label for="id_skoly_odstr">ID školy:</label>
-            <input type="text" id="id_skoly_odstr" name="id_skoly_odstr" required>
-            <br>
-            <input type="submit" value="Potvrdit" name="odstran_skolu">
-        </form>
+            <form method="post">
+                <h2> Přidej učitele </h2>
+                <label for="id_skola">ID Školy:</label>
+                <input type="number" id="id_skola" name="id_skola" min="0" required>
+                <br>
+                <input type="submit" value="Potvrdit" name="pridat_ucitel">
+            </form>
 
-        <form method="post">
-            <h2> Odstraň učitele </h2>
-            <label for="id_ucitel_odstr">ID Učitele:</label>
-            <input type="number" id="id_ucitel_odstr" name="id_ucitel_odstr" min="0" required>
-            <br>
-            <input type="submit" value="Potvrdit" name="odstran_ucitel">
-        </form>
+            <form method="post">
+                <input type="submit" value="Zobrazit" name="zobrazit_ucitele">
+            </form>
+
+
+            <form method="post">
+                <h2> Odstraň školu </h2>
+                <label for="id_skoly_odstr">ID školy:</label>
+                <input type="text" id="id_skoly_odstr" name="id_skoly_odstr" required>
+                <br>
+                <input type="submit" value="Potvrdit" name="odstran_skolu">
+            </form>
+
+            <form method="post">
+                <h2> Odstraň učitele </h2>
+                <label for="id_ucitel_odstr">ID Učitele:</label>
+                <input type="number" id="id_ucitel_odstr" name="id_ucitel_odstr" min="0" required>
+                <br>
+                <input type="submit" value="Potvrdit" name="odstran_ucitel">
+            </form>
+        </div>
+
+        {% if schools %}
+        <div class="seznam-tabulka">
+            <h2 class="seznam-nazev">Seznam škol:</h2>
+            <table class="seznam-skol">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Název školy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for school in schools %}
+                    <tr>
+                        <td>{{ school[0] }}</td>
+                        <td>{{ school[1] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        {% if teachers %}
+        <div class="seznam-tabulka">
+            <h2 class="seznam-nazev">Seznam Učitelů:</h2>
+            <table class="seznam-ucitelu">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Klíč</th>
+                        <th>ID Školy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for teacher in teachers %}
+                    <tr>
+                        <td>{{ teacher[0] }}</td>
+                        <td>{{ teacher[1] }}</td>
+                        <td>{{ teacher[2] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
 </body>
 
 
