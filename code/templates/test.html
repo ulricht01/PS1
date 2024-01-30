@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Select Lines</title>
-</head>
-<body>
+{% extends "template.html" %}
+{% block title %}Tvorba místnosti{% endblock %}
+{% block content %}
     <form action="/test" method="post">
         <label for="selectedUsers">Vyberte uživatele:</label>
         <select id="selectedUsers" name="selectedUsers[]" multiple>
@@ -16,5 +11,4 @@
 
         <button type="submit">Přidat uživatele do místnosti</button>
     </form>
-</body>
-</html>
+{% endblock %}
