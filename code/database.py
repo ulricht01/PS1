@@ -7,7 +7,7 @@ def otevri_spojeni():
         'host': 'mariadb',
         #'host': 'localhost',
         'port': 3306,
-        'database': 'skoly'
+        'database': 'skoly',
     }
     connection = mariadb.connect(**config)
     cursor = mariadb.Cursor(connection)
@@ -26,7 +26,8 @@ def vytvor_db():
     cursor = mariadb.Cursor(connection)
     cursor.execute("CREATE DATABASE IF NOT EXISTS skoly")
 
-def vytvor_tabulky(cursor):   
+def vytvor_tabulky():
+    connection, cursor = otevri_spojeni()
     cursor.execute("""CREATE TABLE IF NOT EXISTS skoly(
                                 id_skola INT(6) NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                 nazev_skola VARCHAR(45) NOT NULL
@@ -56,7 +57,7 @@ def vytvor_tabulky(cursor):
     cursor.execute("""CREATE TABLE IF NOT EXISTS mistnosti(
                                 id_mistnost INT(6) NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                 nazev_mistnosti VARCHAR(10) NOT NULL,
-                                popis VARCHAR(125) NOT NULL,
+                                popis VARCHAR(125) CHARACTER SET utf8mb4 NOT NULL,
                                 id_ucitel INT(6) NOT NULL,
                                 CONSTRAINT `fk_mistnosti_ucitele`
                                     FOREIGN KEY (id_ucitel) REFERENCES ucitele (id_ucitel)
@@ -94,37 +95,84 @@ def vytvor_tabulky(cursor):
                                     ON DELETE CASCADE
                                     ON UPDATE RESTRICT
                             ) ENGINE=InnoDB;""")
-    
-def pridej_skolu(cursor, nazev_skola):
+    cursor.close()
+    connection.close()
+def pridej_skolu(nazev_skola):
+    connection, cursor = otevri_spojeni()
     cursor.execute(""" INSERT INTO skoly (nazev_skola) VALUES (%s)""", (nazev_skola,))
     cursor.close()
+    connection.commit()
+    connection.close()
 
-def pridej_ucitele(cursor, klic_ucitel, id_skoly):
+def pridej_ucitele(klic_ucitel, id_skoly):
+    connection, cursor = otevri_spojeni()
     cursor.execute(""" INSERT INTO ucitele (klic, id_skola) VALUES (%s, %s)""", (klic_ucitel, id_skoly,))
     cursor.close()
+    connection.commit()
+    connection.close()
 
-def odstran_ucitele(cursor,id_ucitel):
+def odstran_ucitele(id_ucitel):
+    connection, cursor = otevri_spojeni()
     cursor.execute(""" DELETE FROM ucitele WHERE id_ucitel = (%s)""", (id_ucitel,))
     cursor.close()
+    connection.commit()
+    connection.close()
 
-def odstran_skolu(cursor, id_skola):
+def odstran_skolu(id_skola):
+    connection, cursor = otevri_spojeni()
     cursor.execute(""" DELETE FROM skoly WHERE id_skola = (%s)""", (id_skola,))
     cursor.close()
+    connection.commit()
+    connection.close()
 
-def pridej_zaka(cursor, email, klic, id_skola):
+def pridej_zaka(email, klic, id_skola):
+    connection, cursor = otevri_spojeni()
     cursor.execute(""" INSERT INTO studenti (email, klic, id_skola) VALUES (%s, %s, %s)""", (email, klic, id_skola,))
     cursor.close() 
+    connection.commit()
+    connection.close()
 
-def pridej_ukol(cursor, nazev_ukol, popis, id_mistnost):
+def pridej_ukol(nazev_ukol, popis, id_mistnost):
+    connection, cursor = otevri_spojeni()
     cursor.execute(""" INSERT INTO ukoly (nazev_ukol, popis, id_mistnost) VALUES (%s, %s, %s)""", (nazev_ukol, popis, id_mistnost,))
     cursor.close() 
+    connection.commit()
+    connection.close()
 
-def pridej_mistnost(cursor, nazev_mistnosti, popis, id_ucitel):
+def pridej_mistnost(nazev_mistnosti, popis, id_ucitel):
+    connection, cursor = otevri_spojeni()
     cursor.execute(""" INSERT INTO mistnosti (nazev_mistnosti, popis, id_ucitel) VALUES (%s, %s, %s)""", (nazev_mistnosti, popis, id_ucitel,))
     cursor.close() 
+    connection.commit()
+    connection.close()
 
-def odevzdej_ukol(cursor, file, id_ukol, id_mistnost, id_student):
-    cursor.execute(""" INSERT INTO mistnosti (file, id_ukol, id_mistnost, id_student) VALUES (%s, %s, %s, %s)""", (file, id_ukol, id_mistnost, id_student,))
+def odevzdej_ukol(file, id_ukol, id_mistnost, id_student):
+    connection, cursor = otevri_spojeni()
+    cursor.execute(""" INSERT INTO odevzdane_ukoly (file, id_ukol, id_mistnost, id_student) VALUES (%s, %s, %s, %s)""", (file, id_ukol, id_mistnost, id_student,))
     cursor.close() 
+    connection.commit()
+    connection.close()
 
+def check_email(email):
+    connection, cursor = otevri_spojeni()
+    cursor.execute(""" SELECT email FROM studenti WHERE email = %s LIMIT 1""", (email,))
+    result = cursor.fetchone()
+    connection.commit()
+    connection.close()
+    return result
 
+def check_keys_ucitel(klic):
+    connection, cursor = otevri_spojeni()
+    cursor.execute(""" SELECT klic FROM ucitele WHERE klic = %s """, (klic,))
+    result = cursor.fetchone()
+    connection.commit()
+    connection.close()
+    return result
+
+def check_keys_student(klic):
+    connection, cursor = otevri_spojeni()
+    cursor.execute(""" SELECT klic FROM studenti WHERE klic = %s """, (klic,))
+    result = cursor.fetchone()
+    connection.commit()
+    connection.close()
+    return result
