@@ -1,12 +1,14 @@
+<!-- Html pro výpis úkolů v místnosti pro učitele, aby je mohl menit a přidávat nové -->
 {% extends "template.html" %}
 {% block title%}Úkoly{% endblock %}
 {% block content %} 
     <!-- Cyklus pro výpis úkolů -->
     {% for task in tasks %}
-        <a id="ukoly" href="{{ url_for('assignment/{{}}') }}">
+        <div>
+            <a id="ukoly" href="{{ url_for('create_assignment', ukol_id=task['id']) }}">
             <h5>{{task["name"]}}</h5>
             <p>{{task["description"]}}</p>
         </div>
     {% endfor %}
-    <a href="{{ url_for('create_room') }}">Vytvořit novou místnost</a>
+    <a href="{{ url_for('create_assignment') }}">Vytvořit nový úkol</a>
 {% endblock %}

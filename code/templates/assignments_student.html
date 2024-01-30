@@ -1,9 +1,10 @@
+<!-- Html pro zobrazení všech úkolů v místnosti -->
 {% extends "template.html" %}
 {% block title%}Úkoly{% endblock %}
 {% block content %} 
     <!-- Cyklus pro výpis úkolů -->
     {% for task in tasks %}
-        <div id="ukoly">
+        <div id="ukoly" onclick="redirectToAssignment({{ task['id'] }})">
             <h5>{{task["name"]}}</h5>
             <p>{{task["description"]}}</p>
         </div>
