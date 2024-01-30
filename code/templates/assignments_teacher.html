@@ -3,7 +3,7 @@
 {% block content %} 
     <!-- Cyklus pro výpis úkolů -->
     {% for task in tasks %}
-        <div>
+        <a id="ukoly" href="{{ url_for('assignment/{{}}') }}">
             <h5>{{task["name"]}}</h5>
             <p>{{task["description"]}}</p>
         </div>
