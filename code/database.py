@@ -35,7 +35,7 @@ def vytvor_tabulky():
             
     cursor.execute("""CREATE TABLE IF NOT EXISTS ucitele(
                                 id_ucitel INT(6) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                                klic VARCHAR(15) NOT NULL UNIQUE,
+                                klic VARCHAR(8) NOT NULL UNIQUE,
                                 id_skola INT(6) NOT NULL,
                                 CONSTRAINT `fk_ucitele_skoly`
                                     FOREIGN KEY (id_skola) REFERENCES skoly (id_skola)
@@ -46,7 +46,7 @@ def vytvor_tabulky():
     cursor.execute("""CREATE TABLE IF NOT EXISTS studenti(
                                 id_student INT(6) NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                 email VARCHAR(70) NOT NULL UNIQUE,
-                                klic VARCHAR(15) NOT NULL,
+                                klic VARCHAR(8) NOT NULL,
                                 id_skola INT(6) NOT NULL,
                                 CONSTRAINT `fk_studenti_skoly`
                                     FOREIGN KEY (id_skola) REFERENCES skoly (id_skola)

@@ -2,7 +2,7 @@ import random
 import string
 import os
 import hashlib
-def generate_random_key(len=15):
+def generate_random_key(len=8):
     characters = string.ascii_letters + string.digits
     key = ''.join(random.choice(characters) for _ in range(len))
     return key
