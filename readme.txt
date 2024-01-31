@@ -1,7 +1,5 @@
 - tabulka metadat k souboru
-- kódování utf-8 pro BLOBy
 - css dořešit
 - 6. deadline
-- dořešit nahrávání souborů na only .py
 - v klíči nepoužívat podobné znaky
 - login

@@ -95,11 +95,12 @@ def assignment():
         if 'fileInput' in request.files:
             file = request.files['fileInput']
             if file and app_logic.allowed_file(file.filename):
-                ukol = file.read()
+                ukol_content = file.read().decode('utf-8')
                 id_ukol = 1
                 id_mistnost = 2
                 id_student = 1
-                database.odevzdej_ukol(ukol, id_ukol, id_mistnost, id_student)
+                database.odevzdej_ukol(ukol_content, id_ukol, id_mistnost, id_student)
+
                 flash("Soubor byl úspěšně nahrán a odevzdán.", 'mess_success')
             else:
                 flash("Chybný formát souboru. Povoleny jsou pouze soubory s příponou .py.", 'mess_error')
