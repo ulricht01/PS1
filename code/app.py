@@ -1,7 +1,8 @@
 from flask import Flask
 from flask import render_template, redirect, jsonify, request, flash
-import mariadb
 import database, app_logic
+from werkzeug.utils import secure_filename
+
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] ="super secret key"
@@ -30,7 +31,7 @@ def zadani_klice_student():
     if request.method == "POST":
         klic_student = request.form['klic_student']
         mistnost = request.form['mistnost']
-        flash(f'{klic_student} | {mistnost}', category='info')
+        flash(f'{klic_student} | {mistnost}', category='mess_success')
     return render_template('index.html')
 
 @app.route('/admin', methods=['GET', 'POST'])
@@ -38,7 +39,8 @@ def admin():
     if request.method == 'POST':
         if 'pridat_skolu' in request.form:
             nazev_skoly = request.form['nazev_skoly']
-            database.pridej_skolu(nazev_skoly)
+            obec = request.form['obec']
+            database.pridej_skolu(nazev_skoly,obec)
         elif 'pridat_ucitel' in request.form:
             klic_ucitel = app_logic.generate_random_key()
             id_skoly = int(request.form['id_skola'])
@@ -68,7 +70,7 @@ def create_room():
     if request.method == 'POST':
         nazev_mistnosti = request.form['roomName']
         popis_mistnosti = request.form['roomDescription']
-        current_ucitel = 4
+        current_ucitel = 1
         database.pridej_mistnost(nazev_mistnosti, popis_mistnosti, current_ucitel) # Current ucitel bude hodnota ucitele, pro teď nastavena hodnota testovaciho ucitele
     return render_template('create_room.html')
 
@@ -78,7 +80,7 @@ def create_assignment():
     if request.method == 'POST':
         nazev_ukolu = request.form['taskName']
         popis_ukolu = request.form['taskDescription']
-        current_mistnost = 1
+        current_mistnost = 2
         database.pridej_ukol(nazev_ukolu, popis_ukolu, current_mistnost) # Current mistnost bude hodnota mistnosti, pro teď nastavena hodnota testovaci mistnosti
     return render_template('create_assignment.html')
 
@@ -86,15 +88,24 @@ def create_assignment():
 def rooms():
     return render_template('rooms.html')
 
+@app.route('/assignment')
 @app.route('/assignment', methods=['GET', 'POST'])
-@app.route("/assignment")
 def assignment():
     if request.method == 'POST':
-        ukol = request.files['fileInput'].read()
-        id_ukol = 1 # Vybrany ukol bude hodnota mistnosti, pro teď nastavena hodnota testovaciho ukolu
-        id_mistnost = 1 # Vybrana mistnost bude hodnota mistnosti, pro teď nastavena hodnota testovaci mistnosti
-        id_student =  2 # Current id_student bude hodnota id_student, pro teď nastavena hodnota testovaciho studenta
-        database.odevzdej_ukol(ukol, id_ukol, id_mistnost, id_student)
+        if 'fileInput' in request.files:
+            file = request.files['fileInput']
+            if file and app_logic.allowed_file(file.filename):
+                ukol = file.read()
+                id_ukol = 1
+                id_mistnost = 2
+                id_student = 1
+                database.odevzdej_ukol(ukol, id_ukol, id_mistnost, id_student)
+                flash("Soubor byl úspěšně nahrán a odevzdán.", 'mess_success')
+            else:
+                flash("Chybný formát souboru. Povoleny jsou pouze soubory s příponou .py.", 'mess_error')
+        else:
+            flash("Soubor nebyl nahrán.", 'mess_error')
+
     return render_template('assignment.html')
 
 @app.route('/new_student', methods=['GET', 'POST'])

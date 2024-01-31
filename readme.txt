@@ -1,9 +1,5 @@
 - tabulka metadat k souboru
-- timestamp do tabulek
 - kódování utf-8 pro BLOBy
-- Obec ke škole
-- Omezit klíče na 8 znaků
-- přidat deleted flags
 - css dořešit
 - 6. deadline
 - dořešit nahrávání souborů na only .py

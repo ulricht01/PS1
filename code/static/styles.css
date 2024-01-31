@@ -139,19 +139,48 @@ button[name="potvrdit"]:hover {
     background-color: darkcyan;
 }
 
-.mess_succes {
+.mess_success {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 200px;
-    /* nastavte šířku podle potřeby */
-    height: 30px;
+    width: auto;
+    height: 40px;
+    /* Zvětšeno o něco více */
     border-radius: 8px;
-    background: silver;
-    color: green;
-    font-size: 20px;
-    size: 30px;
-    border: 1px solid black;
+    background: #8cff66;
+    /* Jasnější zelená barva */
+    color: #004d00;
+    /* Tmavší zelený text */
+    font-size: 18px;
+    /* Trochu menší font-size */
+    font-weight: bold;
+    /* Tučné písmo pro důraz */
+    border: 2px solid #004d00;
+    /* Tmavší ohraničení */
+    margin-bottom: 10px;
+    /* Malý odstup od ostatních prvků */
+}
+
+.mess_error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: 40px;
+    /* Zvětšeno o něco více */
+    border-radius: 8px;
+    background: #ff9999;
+    /* Jasnější červená barva */
+    color: #660000;
+    /* Tmavší červený text */
+    font-size: 18px;
+    /* Trochu menší font-size */
+    font-weight: bold;
+    /* Tučné písmo pro důraz */
+    border: 2px solid #660000;
+    /* Tmavší ohraničení */
+    margin-bottom: 10px;
+    /* Malý odstup od ostatních prvků */
 }
 
 .toggle-input {

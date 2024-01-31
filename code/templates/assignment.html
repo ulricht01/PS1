@@ -1,7 +1,8 @@
-<!-- Html pro zobrazení a odevzdávání úkolu -->>
+<!-- Html pro zobrazení a odevzdávání úkolu -->
 {% extends "template.html" %}
 {% block title %}Úkol{% endblock %}
 {% block content %}
+{% include 'message.html' %}
 <h2>{{name}}</h2>
 <p>{{description}}</p>
 <form method="post" enctype="multipart/form-data">

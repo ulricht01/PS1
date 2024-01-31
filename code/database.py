@@ -30,13 +30,18 @@ def vytvor_tabulky():
     connection, cursor = otevri_spojeni()
     cursor.execute("""CREATE TABLE IF NOT EXISTS skoly(
                                 id_skola INT(6) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                                nazev_skola VARCHAR(45) NOT NULL
+                                nazev_skola VARCHAR(45) NOT NULL,
+                                obec VARCHAR(45) NOT NULL,
+                                dt_create TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                active_flag VARCHAR(1) NOT NULL
                             ) ENGINE=InnoDB;""")
             
     cursor.execute("""CREATE TABLE IF NOT EXISTS ucitele(
                                 id_ucitel INT(6) NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                 klic VARCHAR(8) NOT NULL UNIQUE,
                                 id_skola INT(6) NOT NULL,
+                                dt_create TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                active_flag VARCHAR(1) NOT NULL,
                                 CONSTRAINT `fk_ucitele_skoly`
                                     FOREIGN KEY (id_skola) REFERENCES skoly (id_skola)
                                     ON DELETE CASCADE
@@ -48,6 +53,8 @@ def vytvor_tabulky():
                                 email VARCHAR(70) NOT NULL UNIQUE,
                                 klic VARCHAR(8) NOT NULL,
                                 id_skola INT(6) NOT NULL,
+                                dt_create TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                active_flag VARCHAR(1) NOT NULL,
                                 CONSTRAINT `fk_studenti_skoly`
                                     FOREIGN KEY (id_skola) REFERENCES skoly (id_skola)
                                     ON DELETE CASCADE
@@ -59,6 +66,8 @@ def vytvor_tabulky():
                                 nazev_mistnosti VARCHAR(10) NOT NULL,
                                 popis VARCHAR(125) CHARACTER SET utf8mb4 NOT NULL,
                                 id_ucitel INT(6) NOT NULL,
+                                dt_create TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                active_flag VARCHAR(1) NOT NULL,
                                 CONSTRAINT `fk_mistnosti_ucitele`
                                     FOREIGN KEY (id_ucitel) REFERENCES ucitele (id_ucitel)
                                     ON DELETE CASCADE
@@ -70,6 +79,8 @@ def vytvor_tabulky():
                                 nazev_ukol VARCHAR(25) NOT NULL,
                                 popis VARCHAR(250),
                                 id_mistnost INT(6) NOT NULL,
+                                dt_create TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                active_flag VARCHAR(1) NOT NULL,
                                 CONSTRAINT `fk_ukoly_mistnosti`
                                     FOREIGN KEY (id_mistnost) REFERENCES mistnosti (id_mistnost)
                                     ON DELETE CASCADE
@@ -82,6 +93,7 @@ def vytvor_tabulky():
                                 id_ukol INT(6) NOT NULL,
                                 id_mistnost INT(6) NOT NULL,
                                 id_student INT(6) NOT NULL,
+                                dt_create TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                                 CONSTRAINT `fk_odevzdane_ukoly_ukoly`
                                     FOREIGN KEY (id_ukol) REFERENCES ukoly (id_ukol)
                                     ON DELETE CASCADE
@@ -97,16 +109,16 @@ def vytvor_tabulky():
                             ) ENGINE=InnoDB;""")
     cursor.close()
     connection.close()
-def pridej_skolu(nazev_skola):
+def pridej_skolu(nazev_skola, obec):
     connection, cursor = otevri_spojeni()
-    cursor.execute(""" INSERT INTO skoly (nazev_skola) VALUES (%s)""", (nazev_skola,))
+    cursor.execute(""" INSERT INTO skoly (nazev_skola, obec, active_flag) VALUES (%s, %s, "N")""", (nazev_skola,obec,))
     cursor.close()
     connection.commit()
     connection.close()
 
 def pridej_ucitele(klic_ucitel, id_skoly):
     connection, cursor = otevri_spojeni()
-    cursor.execute(""" INSERT INTO ucitele (klic, id_skola) VALUES (%s, %s)""", (klic_ucitel, id_skoly,))
+    cursor.execute(""" INSERT INTO ucitele (klic, id_skola, active_flag) VALUES (%s, %s, "N")""", (klic_ucitel, id_skoly,))
     cursor.close()
     connection.commit()
     connection.close()
@@ -127,21 +139,21 @@ def odstran_skolu(id_skola):
 
 def pridej_zaka(email, klic, id_skola):
     connection, cursor = otevri_spojeni()
-    cursor.execute(""" INSERT INTO studenti (email, klic, id_skola) VALUES (%s, %s, %s)""", (email, klic, id_skola,))
+    cursor.execute(""" INSERT INTO studenti (email, klic, id_skola, active_flag) VALUES (%s, %s, %s, "N")""", (email, klic, id_skola,))
     cursor.close() 
     connection.commit()
     connection.close()
 
 def pridej_ukol(nazev_ukol, popis, id_mistnost):
     connection, cursor = otevri_spojeni()
-    cursor.execute(""" INSERT INTO ukoly (nazev_ukol, popis, id_mistnost) VALUES (%s, %s, %s)""", (nazev_ukol, popis, id_mistnost,))
+    cursor.execute(""" INSERT INTO ukoly (nazev_ukol, popis, id_mistnost, active_flag) VALUES (%s, %s, %s, "N")""", (nazev_ukol, popis, id_mistnost,))
     cursor.close() 
     connection.commit()
     connection.close()
 
 def pridej_mistnost(nazev_mistnosti, popis, id_ucitel):
     connection, cursor = otevri_spojeni()
-    cursor.execute(""" INSERT INTO mistnosti (nazev_mistnosti, popis, id_ucitel) VALUES (%s, %s, %s)""", (nazev_mistnosti, popis, id_ucitel,))
+    cursor.execute(""" INSERT INTO mistnosti (nazev_mistnosti, popis, id_ucitel, active_flag) VALUES (%s, %s, %s, "N")""", (nazev_mistnosti, popis, id_ucitel,))
     cursor.close() 
     connection.commit()
     connection.close()
@@ -187,6 +199,13 @@ def vypis_skoly():
 def vypis_ucitele():
     connection, cursor = otevri_spojeni()
     cursor.execute("""SELECT * FROM ucitele""")
+    result = cursor.fetchall()
+    connection.close()
+    return result
+
+def vypis_studenty():
+    connection, cursor = otevri_spojeni()
+    cursor.execute(""" SELECT * FROM studenti""")
     result = cursor.fetchall()
     connection.close()
     return result

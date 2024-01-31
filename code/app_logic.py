@@ -2,6 +2,8 @@ import random
 import string
 import os
 import hashlib
+from werkzeug.utils import secure_filename
+
 def generate_random_key(len=8):
     characters = string.ascii_letters + string.digits
     key = ''.join(random.choice(characters) for _ in range(len))
@@ -17,3 +19,7 @@ def verify_email(user_input_email, stored_hashed_email):
         return True
     else:
         return False
+    
+def allowed_file(filename):
+    allowed_extensions = {'py'}
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extensions
