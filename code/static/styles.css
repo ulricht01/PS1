@@ -64,7 +64,21 @@ form {
     align-items: center;
 }
 
-#placeholder_login {
+
+.text_nazev {
+    font-family: 'K2D', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 32px;
+    line-height: 42px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+    margin-top: 10px;
+}
+
+.input-area {
     font-family: 'K2D', sans-serif;
     font-style: normal;
     font-weight: bold;
@@ -76,30 +90,24 @@ form {
     color: #000000;
 }
 
-text_klic {
+.input-box {
     font-family: 'K2D', sans-serif;
     font-style: normal;
     font-weight: bold;
-    font-size: 32px;
+    font-size: 24px;
     line-height: 42px;
     display: flex;
     align-items: center;
     text-align: center;
     color: #000000;
-    margin-top: 25px;
 }
 
-text_mistnost {
-    font-family: 'K2D', sans-serif;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 32px;
-    line-height: 42px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #000000;
-    margin-top: 10px;
+
+
+input[type="text" i] {
+    background: #D6D6D6;
+    border-radius: 15px;
+    border-color: transparent;
 }
 
 input[type="text_klic"] {

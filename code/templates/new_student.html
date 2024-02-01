@@ -4,12 +4,12 @@
 {% include 'message.html' %}
 <form method="post">
     <!-- Název úkolu -->
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
+    <label class="text_nazev" for="email">Email:</label>
+    <input class="input-box" type="email" id="email" name="email" required>
 
     <!-- Popis úkolu -->
-    <label for="idSkoly">Id Školy:</label>
-    <input type="number" min="0" id="idSkoly" name="idSkoly" required></textarea>
+    <label class="text_nazev" for="idSkoly">Id Školy:</label>
+    <input class="input-box" type="number" min="0" id="idSkoly" name="idSkoly" required></textarea>
 
     <!-- Tlačítko pro odeslání formuláře -->
     <button type="submit" name="potvrdit">Odeslat</button>
