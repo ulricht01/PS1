@@ -43,6 +43,8 @@ def admin():
             database.pridej_skolu(nazev_skoly,obec)
         elif 'pridat_ucitel' in request.form:
             klic_ucitel = app_logic.generate_random_key()
+            while klic_ucitel in database.check_keys_ucitel(klic_ucitel):
+                klic_ucitel = app_logic.generate_random_key()
             id_skoly = int(request.form['id_skola'])
             database.pridej_ucitele(klic_ucitel, id_skoly)
         elif 'odstran_skolu' in request.form:

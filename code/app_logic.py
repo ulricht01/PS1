@@ -6,6 +6,7 @@ from werkzeug.utils import secure_filename
 
 def generate_random_key(len=8):
     characters = string.ascii_letters + string.digits
+    characters = characters.replace('I', 'X').replace('l', 'Y')
     key = ''.join(random.choice(characters) for _ in range(len))
     return key
 
