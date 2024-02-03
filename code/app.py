@@ -43,10 +43,22 @@ def admin():
             database.pridej_skolu(nazev_skoly,obec)
         elif 'pridat_ucitel' in request.form:
             klic_ucitel = app_logic.generate_random_key()
-            while klic_ucitel in database.check_keys_ucitel(klic_ucitel):
-                klic_ucitel = app_logic.generate_random_key()
-            id_skoly = int(request.form['id_skola'])
-            database.pridej_ucitele(klic_ucitel, id_skoly)
+            max_pokusy = 10
+            pokusy = 0
+            while pokusy < max_pokusy:
+                check = database.check_keys_ucitel(klic_ucitel)
+                if check is None:
+                    # Klíč je unikátní, můžeš pokračovat
+                    id_skoly = int(request.form['id_skola'])
+                    database.pridej_ucitele(klic_ucitel, id_skoly)
+                    flash("Učitel byl úspěšně přidán!", 'mess_success')
+                    break
+                else:
+                    # Klíč byl nalezen, vygeneruj nový a zkus znovu
+                    klic_ucitel = app_logic.generate_random_key()
+                    pokusy += 1
+            else:
+                flash("Nepodařilo se vygenerovat unikátní klíč učitele!", 'mess_error')
         elif 'odstran_skolu' in request.form:
             id_skoly = int(request.form['id_skoly_odstr'])
             database.odstran_skolu(id_skoly)
@@ -119,13 +131,32 @@ def new_student():
         email = app_logic.hash_email(email)
         id_skoly = int(request.form['idSkoly'])
         klic = app_logic.generate_random_key()
-        if database.check_email(email) == None:
-            database.pridej_zaka(email, klic, id_skoly)
+        
+        # Omez počet pokusů na zabránění zacyklení
+        max_pokusy = 10
+        pokusy = 0
+        
+        while pokusy < max_pokusy:
+            check_klic = database.check_keys_student(klic)
+            
+            if check_klic is None:
+                # Klíč je unikátní, můžeš pokračovat
+                if database.check_email(email) is None:
+                    database.pridej_zaka(email, klic, id_skoly)
+                    flash('Student byl úspěšně přidán!', 'mess_success')
+                    break
+                else:
+                    flash('Email již existuje!', 'mess_error')
+                    break
+            else:
+                # Klíč byl nalezen, vygeneruj nový a zkus znovu
+                klic = app_logic.generate_random_key()
+                pokusy += 1
         else:
-            flash('Email již existuje!', category='error')
+            # Pokud byly vyčerpány všechny pokusy, vrátit chybovou zprávu
+            flash('Nepodařilo se vygenerovat unikátní klíč studenta!', 'mess_error')
+            
     return render_template('new_student.html')
-
-@app.route
 
 @app.errorhandler(404)
 def page_not_found(e):

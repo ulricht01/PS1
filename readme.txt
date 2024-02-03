@@ -1,5 +1,6 @@
 - tabulka metadat k souboru
 - css dořešit
 - 6. deadline
-- v klíči nepoužívat podobné znaky
 - login
+- ošetřit padání v případě zadání špatných id apod.
+- 
