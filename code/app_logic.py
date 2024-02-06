@@ -26,10 +26,8 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extensions
 
 def ziskat_typ_souboru(file_path):
-    # Extrahujte příponu ze souborové cesty
     file_extension = os.path.splitext(file_path)[1]
 
-    # Přiřaďte typ souboru na základě přípony
     if file_extension == ".py":
         return "Python"
     else:

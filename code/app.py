@@ -111,16 +111,12 @@ def assignment():
             file = request.files['fileInput']
 
             if file and app_logic.allowed_file(file.filename):
-                # Získání názvu souboru, velikosti a typu
                 filename = file.filename
-                # Získání velikosti souboru v bytech pomocí metody stream
                 velikost = len(file.stream.read())
                 typ = app_logic.ziskat_typ_souboru(filename)
 
-                # Resetování pozice čtení souboru na začátek pro další čtení
                 file.stream.seek(0)
 
-                # Čtení obsahu souboru
                 ukol_content = file.stream.read().decode('utf-8')
 
                 id_ukol = 1
@@ -179,6 +175,11 @@ def page_not_found(e):
 @app.errorhandler(500)
 def page_not_found(e):
     return render_template('500.html'), 500
+
+@app.route('/test', methods=['GET', 'POST'])
+def test():
+    return render_template('test.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=5000)
