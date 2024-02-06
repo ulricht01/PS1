@@ -8,10 +8,13 @@
 
         <!-- Popis úkolu -->
         <label class="text_nazev" for="taskDescription">Popis místnosti:</label>
-        <textarea class="input-area" id="roomDescription" name="roomDescription" rows="3" required></textarea>
+        <textarea class="input-area" id="roomDescription" name="roomDescription" rows="3"  required></textarea>
 
         <!-- Tlačítko pro odeslání formuláře -->
-        <button type="submit" name="potvrdit">Uložit</button>
-        <button type="submit" name="potvrdit">Zrušit</button>
+        <div class="button-line">
+            <button type="submit" name="potvrdit">Uložit</button>
+            <button type="submit" name="potvrdit">Zrušit</button>
+        </div>
+
     </form>
 {% endblock %}

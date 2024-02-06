@@ -88,6 +88,10 @@ form {
     align-items: center;
     text-align: center;
     color: #000000;
+    resize: none;
+    height: 400px;
+    width: 1000px;
+    border-radius: 15px;
 }
 
 .input-box {
@@ -127,21 +131,22 @@ input[type="text_mistnost"] {
     border-color: transparent;
 }
 
-button[name="potvrdit"] {
+button {
     font-family: 'K2D', sans-serif;
     font-style: normal;
     font-weight: bold;
     margin-top: 25px;
-    padding: 20px 45px;
+    /*padding: 15px 35px;*/
     font-size: 25px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 15px;
     background-color: #95fff9;
     cursor: pointer;
-
+    width: 200px;
+    height: 50px;
 }
 
-button[name="potvrdit"]:hover {
+button:hover {
     background-color: darkcyan;
 }
 
