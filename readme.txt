@@ -1,6 +1,4 @@
-- tabulka metadat k souboru
 - css dořešit
-- 6. deadline
 - login
 - ošetřit padání v případě zadání špatných id apod.
-- 
+- přidat sůl do hashe

@@ -24,3 +24,16 @@ def verify_email(user_input_email, stored_hashed_email):
 def allowed_file(filename):
     allowed_extensions = {'py'}
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extensions
+
+def ziskat_typ_souboru(file_path):
+    # Extrahujte příponu ze souborové cesty
+    file_extension = os.path.splitext(file_path)[1]
+
+    # Přiřaďte typ souboru na základě přípony
+    if file_extension == ".py":
+        return "Python"
+    else:
+        return "N/A"
+    
+def ziskat_velikost_souboru(file_path):
+    return os.path.getsize(file_path)

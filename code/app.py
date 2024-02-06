@@ -94,8 +94,9 @@ def create_assignment():
     if request.method == 'POST':
         nazev_ukolu = request.form['taskName']
         popis_ukolu = request.form['taskDescription']
-        current_mistnost = 2
-        database.pridej_ukol(nazev_ukolu, popis_ukolu, current_mistnost) # Current mistnost bude hodnota mistnosti, pro teď nastavena hodnota testovaci mistnosti
+        typ = request.form['taskType']
+        current_mistnost = 1
+        database.pridej_ukol(nazev_ukolu, popis_ukolu, typ, current_mistnost) # Current mistnost bude hodnota mistnosti, pro teď nastavena hodnota testovaci mistnosti
     return render_template('create_assignment.html')
 
 @app.route("/rooms")
@@ -108,12 +109,25 @@ def assignment():
     if request.method == 'POST':
         if 'fileInput' in request.files:
             file = request.files['fileInput']
+
             if file and app_logic.allowed_file(file.filename):
-                ukol_content = file.read().decode('utf-8')
+                # Získání názvu souboru, velikosti a typu
+                filename = file.filename
+                # Získání velikosti souboru v bytech pomocí metody stream
+                velikost = len(file.stream.read())
+                typ = app_logic.ziskat_typ_souboru(filename)
+
+                # Resetování pozice čtení souboru na začátek pro další čtení
+                file.stream.seek(0)
+
+                # Čtení obsahu souboru
+                ukol_content = file.stream.read().decode('utf-8')
+
                 id_ukol = 1
-                id_mistnost = 2
+                id_mistnost = 1
                 id_student = 1
                 database.odevzdej_ukol(ukol_content, id_ukol, id_mistnost, id_student)
+                database.zapis_metadata(id_ukol, velikost, typ)
 
                 flash("Soubor byl úspěšně nahrán a odevzdán.", 'mess_success')
             else:
