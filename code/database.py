@@ -176,3 +176,21 @@ def check_keys_student(klic):
     connection.commit()
     connection.close()
     return result
+
+def check_login_student(email, klic):
+    connection, cursor = otevri_spojeni()
+    try:
+        # Dotaz na databázi
+        dotaz = "SELECT * FROM studenti WHERE email = %s AND klic = %s"
+        cursor.execute(dotaz, (email, klic))
+
+        # Získání řádku
+        radek = cursor.fetchone()
+
+        if radek:
+            return True  # Klíč a email odpovídají záznamu v databázi
+        else:
+            return False  # Klíč nebo email není platný
+    finally:
+        # Uzavření připojení
+        connection.close()

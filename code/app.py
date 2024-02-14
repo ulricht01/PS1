@@ -2,9 +2,12 @@ from flask import Flask
 from flask import render_template, redirect, jsonify, request, flash
 import mariadb
 import database, app_logic
+from flask_login import LoginManager, login_required 
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] ="super secret key"
+
+loginManager = LoginManager(app)
 
 #Vytvoří první connection do mariaDB a vytvoří db
 database.vytvor_db()
@@ -28,9 +31,13 @@ database.vytvor_tabulky()
 @app.route('/pristup', methods=['GET', 'POST'])
 def zadani_klice_student():
     if request.method == "POST":
-        klic_student = request.form['klic_student']
-        mistnost = request.form['mistnost']
-        flash(f'{klic_student} | {mistnost}', category='info')
+        email = request.form['email_student']
+        klic_student = request.form['klic_student']        
+
+        if check_login_student(email, klic_student):
+            flash("Uspěch", category="info")
+        else:
+            flash("Noob", category="error")
     return render_template('index.html')
 
 @app.route('/admin', methods=['GET', 'POST'])

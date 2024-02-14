@@ -2,6 +2,8 @@ import random
 import string
 import os
 import hashlib
+from flask_login import UserMixin
+
 def generate_random_key(len=15):
     characters = string.ascii_letters + string.digits
     key = ''.join(random.choice(characters) for _ in range(len))
@@ -17,3 +19,8 @@ def verify_email(user_input_email, stored_hashed_email):
         return True
     else:
         return False
+    
+class User(UserMixin):
+    def __init__(self, klic, ucitel=False):
+        self.id = klic
+        self.jeUcitel = ucitel
