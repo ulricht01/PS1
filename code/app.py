@@ -37,6 +37,7 @@ def zadani_klice_student():
         klic_student = request.form['klic_student']        
         if database.check_login_student(email, klic_student):
             flash("Login Successfull", category="success")
+            login_user()
             return redirect(url_for(rooms))
         else:
             flash("Wrong password or email", category="error")
