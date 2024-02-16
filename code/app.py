@@ -1,8 +1,7 @@
-from flask import Flask
-from flask import render_template, redirect, jsonify, request, flash
+from flask import Flask, url_for, render_template, redirect, jsonify, request, flash
 import mariadb
 import database, app_logic
-from flask_login import LoginManager, login_required 
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user 
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] ="super secret key"
@@ -33,11 +32,11 @@ def zadani_klice_student():
     if request.method == "POST":
         email = request.form['email_student']
         klic_student = request.form['klic_student']        
-
-        if check_login_student(email, klic_student):
-            flash("Uspěch", category="info")
+        if database.check_login_student(email, klic_student):
+            flash("Login Successfull", category="success")
+            return redirect(url_for(rooms))
         else:
-            flash("Noob", category="error")
+            flash("Wrong password or email", category="error")
     return render_template('index.html')
 
 @app.route('/admin', methods=['GET', 'POST'])
@@ -80,11 +79,13 @@ def create_assignment():
     return render_template('create_assignment.html')
 
 @app.route("/rooms")
+@login_required
 def rooms():
     return render_template('rooms.html')
 
 @app.route('/assignment', methods=['GET', 'POST'])
 @app.route("/assignment")
+@login_required
 def assignment():
     if request.method == 'POST':
         ukol = request.files['fileInput'].read()
@@ -117,6 +118,10 @@ def page_not_found(e):
 @app.errorhandler(500)
 def page_not_found(e):
     return render_template('500.html'), 500
+
+@loginManager.user_loader
+def load_user():
+    pass
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=5000)
