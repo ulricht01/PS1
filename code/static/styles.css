@@ -76,7 +76,7 @@ form {
     color: #000000;
 }
 
-text_klic {
+text_email {
     font-family: 'K2D', sans-serif;
     font-style: normal;
     font-weight: bold;
@@ -89,7 +89,7 @@ text_klic {
     margin-top: 25px;
 }
 
-text_mistnost {
+text_klic {
     font-family: 'K2D', sans-serif;
     font-style: normal;
     font-weight: bold;
@@ -115,7 +115,7 @@ h2 {
     font-size: 40px;
 }
 
-input[type="text_mistnost"] {
+input[type="text_email"] {
     background: #D6D6D6;
     border-radius: 15px;
     border-color: transparent;
