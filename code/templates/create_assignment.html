@@ -3,15 +3,27 @@
 {% block content %}
 <form method="post">
     <!-- Název úkolu -->
-    <label for="taskName">Název úkolu:</label>
-    <input type="text" id="taskName" name="taskName" required>
+    <label class="text_nazev" for="taskName">Název úkolu:</label>
+    <input class="input-box" type="text" id="taskName" name="taskName" required>
+
+    <label class="text_nazev" for="taskType">Typ úkolu:</label>
+    <select class="input-box" id="taskType" name="taskType" required>
+        <option value="" disabled selected hidden>Vyberte typ úkolu</option>
+        <option value="Samostatný projekt">Samostatný projekt</option>
+        <option value="Skupinová práce">Skupinová práce</option>
+        <option value="Seminární práce">Seminární práce</option>
+        <option value="Test">Test</option>
+        <option value="Domácí práce">Domácí práce</option>
+        <option value="Školní práce">Školní práce</option>
+    </select>
 
     <!-- Popis úkolu -->
-    <label for="taskDescription">Popis úkolu:</label>
-    <textarea id="taskDescription" name="taskDescription" rows="4" required></textarea>
+    <label class="text_nazev" for="taskDescription">Popis úkolu:</label>
+    <textarea class="input-area" id="taskDescription" name="taskDescription" rows="4" required></textarea>
 
-    <!-- Tlačítko pro odeslání formuláře -->
-    <button type="submit" name="potvrdit">Uložit</button>
-    <button type="submit" name="potvrdit">Zrušit</button>
+    <div class="button-line">
+        <button type="submit" name="potvrdit">Uložit</button>
+        <button type="submit" name="potvrdit">Zrušit</button>
+    </div>
 </form>
 {% endblock %}

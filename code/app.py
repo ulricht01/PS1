@@ -2,6 +2,9 @@ from flask import Flask, url_for, render_template, redirect, jsonify, request, f
 import mariadb
 import database, app_logic
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user 
+import database, app_logic
+from werkzeug.utils import secure_filename
+
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] ="super secret key"
@@ -41,20 +44,45 @@ def zadani_klice_student():
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
-    if request.method=='POST':
+    if request.method == 'POST':
         if 'pridat_skolu' in request.form:
             nazev_skoly = request.form['nazev_skoly']
-            database.pridej_skolu(nazev_skoly)
+            obec = request.form['obec']
+            database.pridej_skolu(nazev_skoly,obec)
         elif 'pridat_ucitel' in request.form:
             klic_ucitel = app_logic.generate_random_key()
-            id_skoly = int(request.form['id_skola'])
-            database.pridej_ucitele(klic_ucitel, id_skoly)
+            max_pokusy = 10
+            pokusy = 0
+            while pokusy < max_pokusy:
+                check = database.check_keys_ucitel(klic_ucitel)
+                if check is None:
+                    # Klíč je unikátní, můžeš pokračovat
+                    id_skoly = int(request.form['id_skola'])
+                    database.pridej_ucitele(klic_ucitel, id_skoly)
+                    flash("Učitel byl úspěšně přidán!", 'mess_success')
+                    break
+                else:
+                    # Klíč byl nalezen, vygeneruj nový a zkus znovu
+                    klic_ucitel = app_logic.generate_random_key()
+                    pokusy += 1
+            else:
+                flash("Nepodařilo se vygenerovat unikátní klíč učitele!", 'mess_error')
         elif 'odstran_skolu' in request.form:
             id_skoly = int(request.form['id_skoly_odstr'])
             database.odstran_skolu(id_skoly)
         elif 'odstran_ucitel' in request.form:
             id_ucitel = int(request.form['id_ucitel_odstr'])
             database.odstran_ucitele(id_ucitel)
+
+        if 'zobrazit_skoly' in request.form:
+            schools = database.vypis_skoly()
+            print(schools)
+            return render_template('admin.html', schools=schools)
+        
+        if 'zobrazit_ucitele' in request.form:
+            teachers = database.vypis_ucitele()
+            print(teachers)
+            return render_template('admin.html', teachers=teachers)
 
     return render_template('admin.html')
 
@@ -64,7 +92,7 @@ def create_room():
     if request.method == 'POST':
         nazev_mistnosti = request.form['roomName']
         popis_mistnosti = request.form['roomDescription']
-        current_ucitel = 4
+        current_ucitel = 1
         database.pridej_mistnost(nazev_mistnosti, popis_mistnosti, current_ucitel) # Current ucitel bude hodnota ucitele, pro teď nastavena hodnota testovaciho ucitele
     return render_template('create_room.html')
 
@@ -74,8 +102,9 @@ def create_assignment():
     if request.method == 'POST':
         nazev_ukolu = request.form['taskName']
         popis_ukolu = request.form['taskDescription']
+        typ = request.form['taskType']
         current_mistnost = 1
-        database.pridej_ukol(nazev_ukolu, popis_ukolu, current_mistnost) # Current mistnost bude hodnota mistnosti, pro teď nastavena hodnota testovaci mistnosti
+        database.pridej_ukol(nazev_ukolu, popis_ukolu, typ, current_mistnost) # Current mistnost bude hodnota mistnosti, pro teď nastavena hodnota testovaci mistnosti
     return render_template('create_assignment.html')
 
 @app.route("/rooms")
@@ -83,16 +112,34 @@ def create_assignment():
 def rooms():
     return render_template('rooms.html')
 
+@app.route('/assignment')
 @app.route('/assignment', methods=['GET', 'POST'])
-@app.route("/assignment")
-@login_required
 def assignment():
     if request.method == 'POST':
-        ukol = request.files['fileInput'].read()
-        id_ukol = 1 # Vybrany ukol bude hodnota mistnosti, pro teď nastavena hodnota testovaciho ukolu
-        id_mistnost = 1 # Vybrana mistnost bude hodnota mistnosti, pro teď nastavena hodnota testovaci mistnosti
-        id_student =  2 # Current id_student bude hodnota id_student, pro teď nastavena hodnota testovaciho studenta
-        database.odevzdej_ukol(ukol, id_ukol, id_mistnost, id_student)
+        if 'fileInput' in request.files:
+            file = request.files['fileInput']
+
+            if file and app_logic.allowed_file(file.filename):
+                filename = file.filename
+                velikost = len(file.stream.read())
+                typ = app_logic.ziskat_typ_souboru(filename)
+
+                file.stream.seek(0)
+
+                ukol_content = file.stream.read().decode('utf-8')
+
+                id_ukol = 1
+                id_mistnost = 1
+                id_student = 1
+                database.odevzdej_ukol(ukol_content, id_ukol, id_mistnost, id_student)
+                database.zapis_metadata(id_ukol, velikost, typ)
+
+                flash("Soubor byl úspěšně nahrán a odevzdán.", 'mess_success')
+            else:
+                flash("Chybný formát souboru. Povoleny jsou pouze soubory s příponou .py.", 'mess_error')
+        else:
+            flash("Soubor nebyl nahrán.", 'mess_error')
+
     return render_template('assignment.html')
 
 @app.route('/new_student', methods=['GET', 'POST'])
@@ -103,13 +150,32 @@ def new_student():
         email = app_logic.hash_email(email)
         id_skoly = int(request.form['idSkoly'])
         klic = app_logic.generate_random_key()
-        if database.check_email(email) == None:
-            database.pridej_zaka(email, klic, id_skoly)
+        
+        # Omez počet pokusů na zabránění zacyklení
+        max_pokusy = 10
+        pokusy = 0
+        
+        while pokusy < max_pokusy:
+            check_klic = database.check_keys_student(klic)
+            
+            if check_klic is None:
+                # Klíč je unikátní, můžeš pokračovat
+                if database.check_email(email) is None:
+                    database.pridej_zaka(email, klic, id_skoly)
+                    flash('Student byl úspěšně přidán!', 'mess_success')
+                    break
+                else:
+                    flash('Email již existuje!', 'mess_error')
+                    break
+            else:
+                # Klíč byl nalezen, vygeneruj nový a zkus znovu
+                klic = app_logic.generate_random_key()
+                pokusy += 1
         else:
-            flash('Email již existuje!', category='error')
+            # Pokud byly vyčerpány všechny pokusy, vrátit chybovou zprávu
+            flash('Nepodařilo se vygenerovat unikátní klíč studenta!', 'mess_error')
+            
     return render_template('new_student.html')
-
-@app.route
 
 @app.errorhandler(404)
 def page_not_found(e):

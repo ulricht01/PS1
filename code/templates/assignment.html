@@ -1,13 +1,14 @@
-<!-- Html pro zobrazení a odevzdávání úkolu -->>
+<!-- Html pro zobrazení a odevzdávání úkolu -->
 {% extends "template.html" %}
 {% block title %}Úkol{% endblock %}
 {% block content %}
+{% include 'message.html' %}
 <h2>{{name}}</h2>
 <p>{{description}}</p>
 <form method="post" enctype="multipart/form-data">
     <!-- Vložení lokálního souboru -->
-    <label for="fileInput">Vyberte soubor:</label>
-    <input type="file" id="fileInput" name="fileInput">
+    <label class="text_nazev" for="fileInput">Vyberte soubor:</label>
+    <input class="input-box" type="file" id="fileInput" name="fileInput" style="margin-left: 170px;">
 
     <!-- Tlačítko pro odeslání formuláře -->
     <button type="submit" name="potvrdit">Odeslat</button>

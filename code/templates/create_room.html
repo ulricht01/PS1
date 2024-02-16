@@ -3,15 +3,18 @@
 {% block content %}
     <form method="post">
         <!-- Název úkolu -->
-        <label for="taskName">Název místnosti:</label>
-        <input type="text" id="roomName" name="roomName" required>
+        <label class="text_nazev" for="text_mistnost">Název místnosti:</label>
+        <input class="input-box" type="text" id="roomName" name="roomName" required>
 
         <!-- Popis úkolu -->
-        <label for="taskDescription">Popis místnosti:</label>
-        <textarea id="roomDescription" name="roomDescription" rows="3" required></textarea>
+        <label class="text_nazev" for="taskDescription">Popis místnosti:</label>
+        <textarea class="input-area" id="roomDescription" name="roomDescription" rows="3"  required></textarea>
 
         <!-- Tlačítko pro odeslání formuláře -->
-        <button type="submit" name="potvrdit">Uložit</button>
-        <button type="submit" name="potvrdit">Zrušit</button>
+        <div class="button-line">
+            <button type="submit" name="potvrdit">Uložit</button>
+            <button type="submit" name="potvrdit">Zrušit</button>
+        </div>
+
     </form>
 {% endblock %}

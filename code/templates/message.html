@@ -1,9 +1,17 @@
-{% with msg = get_flashed_messages() %}
-{% if msg %}
-{% for message in msg %}
-<div class="mess_succes" role="status">
-    {{ message }}
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% for category, message in messages %}
+{% if category == 'mess_success' %}
+<div class="mess_success" role="status">
+    {{ message | safe }}
 </div>
-{% endfor %}
+{% elif category == 'mess_error' %}
+<div class="mess_error" role="status">
+    {{ message | safe }}
+</div>
+{% else %}
+<div class="mess_default" role="status">
+    {{ message | safe }}
+</div>
 {% endif %}
+{% endfor %}
 {% endwith %}

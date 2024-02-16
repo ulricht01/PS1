@@ -1,0 +1,5 @@
+- css dořešit (Pablo Escobar)
+- login (Hegerys)
+- ošetřit padání v případě zadání špatných id apod. (Jirotkins)
+- přidat sůl do hashe (Tomáš)
+- Nastavení selectů v možnostech na adminovi (Tomáš)
