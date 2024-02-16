@@ -1,4 +1,5 @@
 import mariadb
+import hashlib
 
 def otevri_spojeni():
     config = {
@@ -182,7 +183,7 @@ def check_login_student(email, klic):
     try:
         # Dotaz na databázi
         dotaz = "SELECT * FROM studenti WHERE email = %s AND klic = %s"
-        cursor.execute(dotaz, (email, klic))
+        cursor.execute(dotaz, (hashlib.sha256(email.encode('utf-8')).hexdigest(), klic))
 
         # Získání řádku
         radek = cursor.fetchone()
