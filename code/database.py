@@ -1,6 +1,7 @@
 import mariadb
 import hashlib
 import app_logic
+from app_logic import User
 
 def otevri_spojeni():
     config = {
@@ -204,24 +205,6 @@ def check_keys_student(klic):
     connection.close()
     return result
 
-def check_login_student(email, klic):
-    connection, cursor = otevri_spojeni()
-    try:
-        # Dotaz na databázi
-        dotaz = "SELECT * FROM studenti WHERE email = %s AND klic = %s"
-        cursor.execute(dotaz, (hashlib.sha256(email.encode('utf-8')).hexdigest(), klic))
-
-        # Získání řádku
-        radek = cursor.fetchone()
-
-        if radek:
-            return True  # Klíč a email odpovídají záznamu v databázi
-        else:
-            return False  # Klíč nebo email není platný
-    finally:
-        # Uzavření připojení
-        connection.close()
-        
 def vypis_skoly():
     connection, cursor = otevri_spojeni()
     cursor.execute(""" SELECT * FROM skoly""")
@@ -248,3 +231,35 @@ def zapis_metadata(id_ode_ukol, velikost, typ):
     cursor.execute("""INSERT INTO metadata (id_ode_ukol, velikost, typ) VALUES (%s, %s, %s)""", (id_ode_ukol, velikost, typ,))
     connection.commit()
     connection.close()
+
+def check_login_student(email, klic):
+    connection, cursor = otevri_spojeni()
+    try:
+        dotaz = "SELECT * FROM studenti WHERE email = %s"
+        cursor.execute(dotaz, (hashlib.sha256(email.encode('utf-8')).hexdigest(),))
+
+        # Získání řádku
+        radek = cursor.fetchone()
+
+        if radek:
+            if klic == radek[2]: 
+                return (True, radek[0])            
+        return (False, None)  # Klíč nebo email není platný
+    finally:
+        # Uzavření připojení
+        connection.close()
+
+def get_user(id):
+    connection, cursor = otevri_spojeni()
+    try:
+        dotaz = "SELECT * FROM studenti WHERE id_student = %s"
+        cursor.execute(dotaz, (id,))
+
+        # Získání řádku
+        radek = cursor.fetchone()
+
+        return radek
+    
+    finally:
+        # Uzavření připojení
+        connection.close()

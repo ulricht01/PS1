@@ -10,6 +10,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] ="super secret key"
 
 loginManager = LoginManager(app)
+loginManager.login_view = 'zadani_klice_student'
 
 #Vytvoří první connection do mariaDB a vytvoří db
 database.vytvor_db()
@@ -34,11 +35,14 @@ database.vytvor_tabulky()
 def zadani_klice_student():
     if request.method == "POST":
         email = request.form['email_student']
-        klic_student = request.form['klic_student']        
-        if database.check_login_student(email, klic_student):
+        klic_student = request.form['klic_student']
+        # metoda se koukne jestli je v databázi email, který uživatel zadal a případně vrátí i id
+        isUser, id = database.check_login_student(email, klic_student) 
+        if isUser:
             flash("Login Successfull", category="success")
-            login_user()
-            return redirect(url_for(rooms))
+            user = database.get_user(id)
+            login_user(app_logic.User(id=user[0], email=user[1]))
+            return redirect(url_for('rooms'))
         else:
             flash("Wrong password or email", category="error")
     return render_template('index.html')
@@ -187,8 +191,10 @@ def page_not_found(e):
     return render_template('500.html'), 500
 
 @loginManager.user_loader
-def load_user():
-    pass
+def load_user(id):
+    user = database.get_user(id)
+
+    return app_logic.User(id=user[0], email=user[1])
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=5000)
