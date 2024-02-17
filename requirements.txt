@@ -11,4 +11,3 @@ mysql-connector-python==8.2.0
 mysql-connector==2.2.9
 Flask-SQLAlchemy==3.0.2
 mariadb==1.1.7
-wergzeug==2.1.2
