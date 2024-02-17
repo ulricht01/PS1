@@ -29,7 +29,7 @@ config = {
 #Vytvoří druhý connection do mariaDB přímo do db a vytvoří tabulky
 database.vytvor_tabulky()
 
-
+#root endpoint sloužící pro přihlášení
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/pristup', methods=['GET', 'POST'])
 def zadani_klice_student():
@@ -40,8 +40,8 @@ def zadani_klice_student():
         isUser, id = database.check_login_student(email, klic_student) 
         if isUser:
             flash("Login Successfull", category="success")
-            user = database.get_user(id)
-            login_user(app_logic.User(id=user[0], email=user[1]))
+            user = database.get_user(id) # zde si z idčka nataham zbytek informací o uživateli(studentovi)
+            login_user(app_logic.User(id=user[0], email=user[1])) # parametrem metody login_user musí být instance třídy, co dědí UserMixin  
             return redirect(url_for('rooms'))
         else:
             flash("Wrong password or email", category="error")
@@ -112,11 +112,13 @@ def create_assignment():
         database.pridej_ukol(nazev_ukolu, popis_ukolu, typ, current_mistnost) # Current mistnost bude hodnota mistnosti, pro teď nastavena hodnota testovaci mistnosti
     return render_template('create_assignment.html')
 
+# endpoint pro zobrazení místností
 @app.route("/rooms")
 @login_required
 def rooms():
     return render_template('rooms.html')
 
+# endpoint pro jednotlivé úkoly, zde by měl být název, info a možnost odevzdat soubor
 @app.route('/assignment')
 @app.route('/assignment', methods=['GET', 'POST'])
 def assignment():
@@ -190,6 +192,7 @@ def page_not_found(e):
 def page_not_found(e):
     return render_template('500.html'), 500
 
+# Tahle metoda by měla nějak udržovat studenta v sessionu ale úplně tomu nerozumím
 @loginManager.user_loader
 def load_user(id):
     user = database.get_user(id)

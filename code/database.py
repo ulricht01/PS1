@@ -232,6 +232,7 @@ def zapis_metadata(id_ode_ukol, velikost, typ):
     connection.commit()
     connection.close()
 
+# primitivní metoda pro nalezení hashe mailu a porovnání hesla
 def check_login_student(email, klic):
     connection, cursor = otevri_spojeni()
     try:
@@ -241,14 +242,16 @@ def check_login_student(email, klic):
         # Získání řádku
         radek = cursor.fetchone()
 
-        if radek:
-            if klic == radek[2]: 
-                return (True, radek[0])            
+
+        if radek:   # pokud řádek není None
+            if klic == radek[2]: # pokud se klic = klic
+                return (True, radek[0]) # return True pro správně přihlášení a id pro pozdější vytvoření uživatele     
         return (False, None)  # Klíč nebo email není platný
     finally:
         # Uzavření připojení
         connection.close()
 
+# metoda, která mi z id uživatele vrátí zbytek informací
 def get_user(id):
     connection, cursor = otevri_spojeni()
     try:
@@ -258,7 +261,7 @@ def get_user(id):
         # Získání řádku
         radek = cursor.fetchone()
 
-        return radek
+        return radek # vrací tuple(id, email(hash), klic), bude se muset upravit 
     
     finally:
         # Uzavření připojení
