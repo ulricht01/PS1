@@ -15,6 +15,7 @@
     <div class="container">
         <div class="administrative">
             <form method="post">
+                {% include 'message.html' %}
                 <h2> Přidej školu </h2>
                 <label for="nazev_skoly">Název školy:</label>
                 <input type="text" id="nazev_skoly" name="nazev_skoly" required>
@@ -32,7 +33,6 @@
 
             <form method="post">
                 <h2> Přidej učitele </h2>
-                {% include 'message.html' %}
                 <label for="id_skola">ID Školy:</label>
                 <input type="number" id="id_skola" name="id_skola" min="0" required>
                 <br>
