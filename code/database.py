@@ -205,6 +205,14 @@ def check_keys_student(klic):
     connection.close()
     return result
 
+def check_ids_skola(id):
+    connection, cursor = otevri_spojeni()
+    cursor.execute(""" SELECT id_skola FROM skoly WHERE id_skola = %s """, (id,))
+    result = cursor.fetchone()
+    connection.commit()
+    connection.close()
+    return result
+
 def vypis_skoly():
     connection, cursor = otevri_spojeni()
     cursor.execute(""" SELECT * FROM skoly""")

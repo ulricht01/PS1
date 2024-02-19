@@ -2,7 +2,6 @@ from flask import Flask, url_for, render_template, redirect, jsonify, request, f
 import mariadb
 import database, app_logic
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user 
-import database, app_logic
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -54,6 +53,7 @@ def admin():
             nazev_skoly = request.form['nazev_skoly']
             obec = request.form['obec']
             database.pridej_skolu(nazev_skoly,obec)
+            flash("Škola byla úspěšně přidána!", 'mess_success')
         elif 'pridat_ucitel' in request.form:
             klic_ucitel = app_logic.generate_random_key()
             max_pokusy = 10
@@ -63,9 +63,13 @@ def admin():
                 if check is None:
                     # Klíč je unikátní, můžeš pokračovat
                     id_skoly = int(request.form['id_skola'])
-                    database.pridej_ucitele(klic_ucitel, id_skoly)
-                    flash("Učitel byl úspěšně přidán!", 'mess_success')
-                    break
+                    if database.check_ids_skola(id_skoly) is not None:
+                        database.pridej_ucitele(klic_ucitel, id_skoly)
+                        flash("Učitel byl úspěšně přidán!", 'mess_success')
+                        break
+                    else:
+                        flash("ID školy je neplatné!", 'mess_error')
+                        break
                 else:
                     # Klíč byl nalezen, vygeneruj nový a zkus znovu
                     klic_ucitel = app_logic.generate_random_key()
