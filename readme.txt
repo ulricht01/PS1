@@ -1,5 +1,4 @@
 - css dořešit (Pablo Escobar)
-- ošetřit padání v případě zadání špatných id apod. (Jirotkins)
 - Nastavení selectů v možnostech na adminovi (Tomáš)
 - Dořešit stupně/úrovně přístupu
 
