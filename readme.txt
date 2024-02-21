@@ -2,8 +2,6 @@
 - ošetřit padání v případě zadání špatných id apod. (Jirotkins)
 - Nastavení selectů v možnostech na adminovi (Tomáš)
 - Dořešit stupně/úrovně přístupu
-- ERD 
-- messages nastavit
 
 Prezentace https://docs.google.com/presentation/d/19oLHrk9cdVx8K5_P4gXq1gNRJod2fdY9o2YAs0f2jcg/edit?usp=sharing 2-3 slides o tom co jsme dělali
     V posledním případě prezentuje celý řešitelský tým, konkrétně představuje (konkrétní osnova se přizpůsobuje stavu a vývoji řešení projektu):
