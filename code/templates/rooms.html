@@ -1,6 +1,7 @@
 {% extends "template.html" %}
 {% block title%}Místnosti{% endblock %}
-{% block content %} 
+{% block content %}
+    {% include "nav_menu.html" %}
     {% for room in rooms %}
         <div id="room">       
             <!-- Tlačítko pro přesměrování na danou místnost -->

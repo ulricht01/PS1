@@ -107,6 +107,7 @@ def create_room():
 
 @app.route('/create-assignment', methods=['GET', 'POST'])
 @app.route("/create-assignment")
+@login_required
 def create_assignment():
     if request.method == 'POST':
         nazev_ukolu = request.form['taskName']
@@ -125,6 +126,7 @@ def rooms():
 # endpoint pro jednotlivé úkoly, zde by měl být název, info a možnost odevzdat soubor
 @app.route('/assignment')
 @app.route('/assignment', methods=['GET', 'POST'])
+@login_required
 def assignment():
     if request.method == 'POST':
         if 'fileInput' in request.files:
@@ -202,6 +204,12 @@ def load_user(id):
     user = database.get_user(id)
 
     return app_logic.User(id=user[0], email=user[1])
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('zadani_klice_student'))
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=5000)
