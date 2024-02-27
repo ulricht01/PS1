@@ -174,9 +174,9 @@ def pridej_mistnost(nazev_mistnosti, popis, id_ucitel):
     connection.commit()
     connection.close()
 
-def odevzdej_ukol(file, id_ukol, id_mistnost, id_student):
+def odevzdej_ukol(file, typ, id_ukol, id_mistnost, id_student):
     connection, cursor = otevri_spojeni()
-    cursor.execute("""INSERT INTO odevzdane_ukoly (file, id_ukol, id_mistnost, id_student) VALUES (%s, %s, %s, %s)""", (file, id_ukol, id_mistnost, id_student))
+    cursor.execute("""INSERT INTO odevzdane_ukoly (file, typ, id_ukol, id_mistnost, id_student) VALUES (%s, %s, %s, %s, %s)""", (file, typ, id_ukol, id_mistnost, id_student))
     connection.commit()
     connection.close()
 
@@ -234,9 +234,9 @@ def vypis_studenty():
     connection.close()
     return result
 
-def zapis_metadata(id_ode_ukol, velikost, typ):
+def zapis_metadata(id_ode_ukol, velikost):
     connection, cursor = otevri_spojeni()
-    cursor.execute("""INSERT INTO metadata (id_ode_ukol, velikost, typ) VALUES (%s, %s, %s)""", (id_ode_ukol, velikost, typ,))
+    cursor.execute("""INSERT INTO metadata (id_ode_ukol, velikost) VALUES (%s, %s)""", (id_ode_ukol, velikost,))
     connection.commit()
     connection.close()
 

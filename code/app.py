@@ -144,8 +144,8 @@ def assignment():
                 id_ukol = 1
                 id_mistnost = 1
                 id_student = 1
-                database.odevzdej_ukol(ukol_content, id_ukol, id_mistnost, id_student)
-                database.zapis_metadata(id_ukol, velikost, typ)
+                database.odevzdej_ukol(ukol_content, typ, id_ukol, id_mistnost, id_student)
+                database.zapis_metadata(id_ukol, velikost)
 
                 flash("Soubor byl úspěšně nahrán a odevzdán.", 'mess_success')
             else:
