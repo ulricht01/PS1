@@ -3,6 +3,7 @@
 {% block content %}
 <div class="content">
     <form method="post">
+        {% include "message.html" %}
         <label class="text_nazev"> Email </label>
         <input class="input-box" id="placeholder_login" type="text" placeholder="Zadej" name="email_student">
         <label class="text_nazev"> Klíč </label>
@@ -10,5 +11,4 @@
         <button type="submit" name="potvrdit">Najít</button>
     </form>
 </div>
-{% include "message.html" %}
 {% endblock %}

@@ -43,7 +43,7 @@ def zadani_klice_student():
             login_user(app_logic.User(id=user[0], email=user[1])) # parametrem metody login_user musí být instance třídy, co dědí UserMixin  
             return redirect(url_for('rooms'))
         else:
-            flash("Wrong password or email", category="error")
+            flash("Wrong password or email", category="mess_error")
     return render_template('index.html')
 
 @app.route('/admin', methods=['GET', 'POST'])
