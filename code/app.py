@@ -173,12 +173,15 @@ def new_student():
             
             if check_klic is None:
                 # Klíč je unikátní, můžeš pokračovat
-                if database.check_email(email) is None:
+                if database.check_email(email) is not None:
+                    flash('Email již existuje!', 'mess_error')
+                    break
+                elif database.check_ids_skola(id_skoly) is not None:
                     database.pridej_zaka(email, klic, id_skoly)
                     flash('Student byl úspěšně přidán!', 'mess_success')
                     break
                 else:
-                    flash('Email již existuje!', 'mess_error')
+                    flash('ID školy je neplatné!', 'mess_error')
                     break
             else:
                 # Klíč byl nalezen, vygeneruj nový a zkus znovu
