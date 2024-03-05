@@ -1,0 +1,12 @@
+{% extends "template.html" %}
+{% block title %} Učitel Login {% endblock %}
+{% block content %}
+<div class="content-teacher">
+    <form method="post">
+        {% include "message.html" %}
+        <label class="text_nazev"> Klíč </label>
+        <input class="input-box" id="placeholder_login" type="text" placeholder="Zadej" name="klic_ucitel">
+        <button type="submit" name="potvrdit">Najít</button>
+    </form>
+</div>
+{% endblock %}

@@ -259,6 +259,23 @@ def check_login_student(email, klic):
         # Uzavření připojení
         connection.close()
 
+def check_login_teacher(klic):
+    connection, cursor = otevri_spojeni()
+    try:
+        dotaz = "SELECT * FROM ucitele WHERE klic = %s"
+        cursor.execute(dotaz, (klic,))
+
+        # Získání řádku
+        radek = cursor.fetchone()
+
+
+        if radek:   # pokud řádek není None
+            return (True, radek[0]) # return True pro správně přihlášení a id pro pozdější vytvoření uživatele     
+        return (False, None)  # Klíč nebo email není platný
+    finally:
+        # Uzavření připojení
+        connection.close()
+
 # metoda, která mi z id uživatele vrátí zbytek informací
 def get_user(id):
     connection, cursor = otevri_spojeni()

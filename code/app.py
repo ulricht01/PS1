@@ -39,12 +39,25 @@ def zadani_klice_student():
         isUser, id = database.check_login_student(email, klic_student) 
         if isUser:
             flash("Login Successfull", category="success")
-            user = database.get_user(id) # zde si z idčka nataham zbytek informací o uživateli(studentovi)
-            login_user(app_logic.User(id=user[0], email=user[1])) # parametrem metody login_user musí být instance třídy, co dědí UserMixin  
+            login_user(app_logic.User(id=id)) # parametrem metody login_user musí být instance třídy, co dědí UserMixin  
             return redirect(url_for('rooms'))
         else:
             flash("Wrong password or email", category="mess_error")
     return render_template('index.html')
+
+@app.route('/teacher', methods=['GET', 'POST'])
+def teacher_login():
+    if request.method == "POST":
+        klic_ucitel = request.form['klic_ucitel']
+        # metoda se koukne jestli je v databázi email, který uživatel zadal a případně vrátí i id
+        isUser, id = database.check_login_teacher(klic_ucitel) 
+        if isUser:
+            flash("Login Successfull", category="success")
+            login_user(app_logic.User(id=id, ucitel=True)) # parametrem metody login_user musí být instance třídy, co dědí UserMixin  
+            return redirect(url_for('rooms'))
+        else:
+            flash("Neexistující klíč", category="mess_error")
+    return render_template('teacher.html')
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
@@ -198,12 +211,11 @@ def page_not_found(e):
 def page_not_found(e):
     return render_template('500.html'), 500
 
-# Tahle metoda by měla nějak udržovat studenta v sessionu ale úplně tomu nerozumím
+# Tahle metoda by měla nějak udržovat uživatele v sessionu ale úplně tomu nerozumím
 @loginManager.user_loader
-def load_user(id):
-    user = database.get_user(id)
+def load_user(id, isTeacher=False):
 
-    return app_logic.User(id=user[0], email=user[1])
+    return app_logic.User(id=id, ucitel=isTeacher)
 
 @app.route("/logout")
 @login_required

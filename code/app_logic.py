@@ -45,7 +45,6 @@ def ziskat_velikost_souboru(file_path):
 
 # Třída pro reprezentaci uživatele během běhu aplikace. Nezbytná pro metodu login_user, která přihlašuje uživatele do sessionu.
 class User(UserMixin):
-    def __init__(self, id, email, ucitel=False):
+    def __init__(self, id, ucitel=False):
         self.id = id
-        self.email= email
         self.jeUcitel = ucitel

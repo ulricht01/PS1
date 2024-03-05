@@ -58,6 +58,21 @@ body {
     align-items: center;
 }
 
+.content-teacher {
+    margin-top: 150px;
+    /* Adjust distance from header */
+    width: 100%;
+    /* Adjust width of rectangle */
+    height: 200px;
+    /* Adjust height of rectangle */
+    background-color: #a9b5c7;
+    /* White rectangle background */
+    padding: 20px;
+    /*border: 2px solid #333; */
+    border-radius: 8px;
+    align-items: center;
+}
+
 form {
     display: flex;
     flex-direction: column;
