@@ -275,19 +275,3 @@ def check_login_teacher(klic):
     finally:
         # Uzavření připojení
         connection.close()
-
-# metoda, která mi z id uživatele vrátí zbytek informací
-def get_user(id):
-    connection, cursor = otevri_spojeni()
-    try:
-        dotaz = "SELECT * FROM studenti WHERE id_student = %s"
-        cursor.execute(dotaz, (id,))
-
-        # Získání řádku
-        radek = cursor.fetchone()
-
-        return radek # vrací tuple(id, email(hash), klic), bude se muset upravit 
-    
-    finally:
-        # Uzavření připojení
-        connection.close()
