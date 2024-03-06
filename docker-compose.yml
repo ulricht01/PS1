@@ -19,7 +19,7 @@ services:
       - ./data:/var/lib/myslq
     ports:
       - "3306:3306"
-  
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     container_name: 'Phpmyadmin'
