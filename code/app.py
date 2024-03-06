@@ -226,5 +226,10 @@ def logout():
     logout_user()
     return redirect(url_for('zadani_klice_student'))
 
+@app.route('/get_schools')
+def get_schools():
+    all_schools = database.vypis_skoly()
+    return jsonify(all_schools)
+
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=5000)

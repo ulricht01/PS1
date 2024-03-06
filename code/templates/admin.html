@@ -6,6 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Hlavní stránka</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='admin.css') }}">
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Načti seznam škol po načtení stránky
+            $.get('/get_schools', function (data) {
+                var schoolsSelect = $('#id_skola');
+                schoolsSelect.empty();
+                $.each(data, function (index, school) {
+                    schoolsSelect.append('<option value="' + school[0] + '">' + school[1] + '</option>');
+                });
+            });
+        });
+    </script>
+
+
 </head>
 
 <body>
@@ -33,9 +49,9 @@
             </form>
 
             <form method="post">
-                <h2> Přidej učitele </h2>
-                <label for="id_skola">ID Školy:</label>
-                <input type="number" id="id_skola" name="id_skola" min="0" required>
+                <h2>Přidej učitele</h2>
+                <label for="id_skola">Škola:</label>
+                <select id="id_skola" name="id_skola" required></select>
                 <br>
                 <input type="submit" value="Potvrdit" name="pridat_ucitel">
             </form>
