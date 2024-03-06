@@ -21,7 +21,31 @@
         });
     </script>
 
+    <script>
+        $(document).ready(function () {
+            // Načti seznam škol po načtení stránky
+            $.get('/get_schools', function (data) {
+                var schoolsSelect = $('#id_skoly_odstr');
+                schoolsSelect.empty();
+                $.each(data, function (index, school) {
+                    schoolsSelect.append('<option value="' + school[0] + '">' + school[1] + '</option>');
+                });
+            });
+        });
+    </script>
 
+    <script>
+        $(document).ready(function () {
+            // Načti seznam učitelů po načtení stránky
+            $.get('/get_teachers', function (data) {
+                var teachersSelect = $('#id_ucitel_odstr');
+                teachersSelect.empty();
+                $.each(data, function (index, teacher) {
+                    teachersSelect.append('<option value="' + teacher[0] + '">' + teacher[1] + '</option>');
+                });
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -64,7 +88,7 @@
             <form method="post">
                 <h2> Odstraň školu </h2>
                 <label for="id_skoly_odstr">ID školy:</label>
-                <input type="text" id="id_skoly_odstr" name="id_skoly_odstr" required>
+                <select id="id_skoly_odstr" name="id_skoly_odstr" required></select>
                 <br>
                 <input type="submit" value="Potvrdit" name="odstran_skolu">
             </form>
@@ -72,7 +96,7 @@
             <form method="post">
                 <h2> Odstraň učitele </h2>
                 <label for="id_ucitel_odstr">ID Učitele:</label>
-                <input type="number" id="id_ucitel_odstr" name="id_ucitel_odstr" min="0" required>
+                <select id="id_ucitel_odstr" name="id_ucitel_odstr" required></select>
                 <br>
                 <input type="submit" value="Potvrdit" name="odstran_ucitel">
             </form>
