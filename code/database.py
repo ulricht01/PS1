@@ -123,6 +123,23 @@ def vytvor_tabulky():
                                     ON DELETE CASCADE
                                     ON UPDATE RESTRICT
                             ) ENGINE=InnoDB;""")
+
+    cursor.execute("""CREATE TABLE IF NOT EXISTS mistnosti_has_studenti(
+                                id_student INT(6) NOT NULL,
+                                id_mistnost INT(6) NOT NULL,
+                                dt_create TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                CONSTRAINT `fk_studenti_mistnosti_studenti`
+                                    FOREIGN KEY (id_student) REFERENCES studenti (id_student)
+                                    ON DELETE CASCADE
+                                    ON UPDATE RESTRICT,
+                                CONSTRAINT `fk_studenti_mistnosti_mistnosti`
+                                    FOREIGN KEY (id_mistnost) REFERENCES mistnosti (id_mistnost)
+                                    ON DELETE CASCADE
+                                    ON UPDATE RESTRICT,
+                                PRIMARY KEY (id_student, id_mistnost)
+                            ) ENGINE=InnoDB;""")
+    
+
     cursor.close()
     connection.close()
 def pridej_skolu(nazev_skola, obec):
