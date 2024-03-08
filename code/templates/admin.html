@@ -65,41 +65,76 @@
                 <input type="text" id="obec" name="obec" required>
                 <br>
                 <input type="submit" value="Potvrdit" name="pridat_skolu">
-            </form>
-
-
-            <form method="post">
                 <input type="submit" value="Zobrazit" name="zobrazit_skoly">
             </form>
+
 
             <form method="post">
                 <h2>Přidej učitele</h2>
                 <label for="id_skola">Škola:</label>
-                <select id="id_skola" name="id_skola" required></select>
+                <select class="select-box" id="id_skola" name="id_skola" required>
+                    <!-- Defaultní hodnota bude vložena pomocí JavaScriptu -->
+                </select>
                 <br>
                 <input type="submit" value="Potvrdit" name="pridat_ucitel">
-            </form>
-
-            <form method="post">
                 <input type="submit" value="Zobrazit" name="zobrazit_ucitele">
             </form>
-
-
+            
             <form method="post">
-                <h2> Odstraň školu </h2>
+                <h2>Odstraň školu</h2>
                 <label for="id_skoly_odstr">ID školy:</label>
-                <select id="id_skoly_odstr" name="id_skoly_odstr" required></select>
+                <select class="select-box" id="id_skoly_odstr" name="id_skoly_odstr" required>
+                    <!-- Defaultní hodnota bude vložena pomocí JavaScriptu -->
+                </select>
                 <br>
                 <input type="submit" value="Potvrdit" name="odstran_skolu">
             </form>
-
+            
             <form method="post">
-                <h2> Odstraň učitele </h2>
+                <h2>Odstraň učitele</h2>
                 <label for="id_ucitel_odstr">ID Učitele:</label>
-                <select id="id_ucitel_odstr" name="id_ucitel_odstr" required></select>
+                <select class="select-box" id="id_ucitel_odstr" name="id_ucitel_odstr" required>
+                    <!-- Defaultní hodnota bude vložena pomocí JavaScriptu -->
+                </select>
                 <br>
                 <input type="submit" value="Potvrdit" name="odstran_ucitel">
             </form>
+            
+            <script>
+                // Počkej, dokud se stránka úplně nenaloaduje
+                window.addEventListener('load', (event) => {
+                    // Funkce pro vložení výchozí hodnoty "Vyberte" do všech selectů
+                    function addDefaultOption(selectElement) {
+                        var defaultOption = document.createElement('option');
+                        defaultOption.text = 'Vyberte';
+                        defaultOption.value = '';
+                        defaultOption.selected = true;
+                        selectElement.add(defaultOption);
+                    }
+            
+                    // Nastavení výchozí hodnoty "Vyberte" do všech selectů
+                    var selectElements = document.querySelectorAll('.select-box');
+                    selectElements.forEach(function(selectElement) {
+                        addDefaultOption(selectElement);
+                    });
+            
+                    // Uložení vybrané hodnoty školy po změně v select elementu
+                    selectElements.forEach(function(selectElement) {
+                        selectElement.addEventListener('change', function() {
+                            var selectedValue = selectElement.value;
+                            localStorage.setItem(selectElement.id, selectedValue);
+                        });
+                    });
+            
+                    // Načtení uložených hodnot při načtení stránky
+                    selectElements.forEach(function(selectElement) {
+                        var savedValue = localStorage.getItem(selectElement.id);
+                        if (savedValue !== null) {
+                            selectElement.value = savedValue;
+                        }
+                    });
+                });
+            </script>
         </div>
 
         {% if schools %}

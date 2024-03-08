@@ -55,6 +55,7 @@ input[type="number"] {
 }
 
 input[type="submit"] {
+    margin-top: 5px;
     margin-bottom: 10px;
     background-color: #95fff9;
     color: black;
@@ -139,4 +140,17 @@ input[type="submit"]:hover {
     /* Tmavší ohraničení */
     margin-bottom: 10px;
     /* Malý odstup od ostatních prvků */
+}
+
+.select-box {
+    min-width: 500px;
+    font-family: 'K2D', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 42px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000;
 }

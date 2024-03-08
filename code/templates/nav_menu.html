@@ -1,8 +1,19 @@
-<nav class="navigation-menu">
-    <ul>
-        <li><a href="{{ url_for('zadani_klice_student') }}">Home</a></li>
-        <li><a href="{{ url_for('rooms') }}">Rooms</a></li>
-        <li><a href="{{ url_for('admin') }}">Admin</a></li>
-        <li><a href="{{ url_for('logout') }}">Logout</a></li>
-    </ul>
-</nav>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='navigation_menu.css') }}">
+    
+</head>
+<body>
+    <nav class="navigation-menu">
+        <ul class="nav_menu">
+            <li class="nav_item"><a class="nav_button" href="{{ url_for('zadani_klice_student') }}">Home</a></li>
+            <li class="nav_item"><a class="nav_button" href="{{ url_for('rooms') }}">Rooms</a></li>
+            <li class="nav_item"><a class="nav_button" href="{{ url_for('admin') }}">Admin</a></li>
+            <li class="nav_item"><a class="nav_button" href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+    </nav>
+</body>
+</html>

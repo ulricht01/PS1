@@ -166,6 +166,7 @@ button:hover {
 }
 
 .mess_success {
+    font-family: 'K2D', sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -188,6 +189,7 @@ button:hover {
 }
 
 .mess_error {
+    font-family: 'K2D', sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -204,6 +206,29 @@ button:hover {
     font-weight: bold;
     /* Tučné písmo pro důraz */
     border: 2px solid #660000;
+    /* Tmavší ohraničení */
+    margin-bottom: 10px;
+    /* Malý odstup od ostatních prvků */
+}
+
+.mess_default{
+    font-family: 'K2D', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: 40px;
+    /* Zvětšeno o něco více */
+    border-radius: 8px;
+    background: white;
+    /* Jasnější červená barva */
+    color: black;
+    /* Tmavší červený text */
+    font-size: 18px;
+    /* Trochu menší font-size */
+    font-weight: bold;
+    /* Tučné písmo pro důraz */
+    border: 2px solid black;
     /* Tmavší ohraničení */
     margin-bottom: 10px;
     /* Malý odstup od ostatních prvků */
@@ -233,32 +258,3 @@ button:hover {
     display: block;
 }
 
-.navigation-menu {
-    background-color: #ffffff; /* White background color */
-    width: 100%;
-}
-
-.navigation-menu ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
-
-.navigation-menu li {
-    flex: 1;
-    text-align: center;
-    padding: 15px;
-    border-bottom: 2px solid #cccccc; /* Border color between menu items */
-}
-
-.navigation-menu a {
-    text-decoration: none;
-    color: #333333; /* Text color */
-    font-weight: bold;
-    font-size: 16px;
-}
-
-.navigation-menu a:hover {
-    color: #007bff; /* Text color on hover */
-}
