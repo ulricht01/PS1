@@ -1,4 +1,4 @@
-from flask import Flask, url_for, render_template, redirect, jsonify, request, flash
+from flask import Flask, url_for, render_template, redirect, jsonify, request, flash, session
 import mariadb
 import database, app_logic
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user 
@@ -39,7 +39,8 @@ def zadani_klice_student():
         isUser, id = database.check_login_student(email, klic_student) 
         if isUser:
             flash("Login Successfull", category="success")
-            login_user(app_logic.User(id=id)) # parametrem metody login_user musí být instance třídy, co dědí UserMixin  
+            login_user(app_logic.User(id=id, ucitel=False))
+            session['type'] = 'student' # parametrem metody login_user musí být instance třídy, co dědí UserMixin  
             return redirect(url_for('rooms'))
         else:
             flash("Wrong password or email", category="mess_error")
@@ -53,7 +54,8 @@ def teacher_login():
         isUser, id = database.check_login_teacher(klic_ucitel) 
         if isUser:
             flash("Login Successfull", category="success")
-            login_user(app_logic.User(id=id, ucitel=True)) # parametrem metody login_user musí být instance třídy, co dědí UserMixin  
+            login_user(app_logic.User(id=id, ucitel=True))
+            session['type'] = 'teacher' # parametrem metody login_user musí být instance třídy, co dědí UserMixin  
             return redirect(url_for('rooms'))
         else:
             flash("Neexistující klíč", category="mess_error")
@@ -134,7 +136,10 @@ def create_assignment():
 @app.route("/rooms")
 @login_required
 def rooms():
-    return render_template('rooms.html')
+    if current_user.jeUcitel:
+        return render_template('rooms.html')
+    else:
+        return render_template('404.html')
 
 # endpoint pro jednotlivé úkoly, zde by měl být název, info a možnost odevzdat soubor
 @app.route('/assignment')
@@ -216,9 +221,12 @@ def page_not_found(e):
 
 # Tahle metoda by měla nějak udržovat uživatele v sessionu ale úplně tomu nerozumím
 @loginManager.user_loader
-def load_user(id, isTeacher=False):
-
-    return app_logic.User(id=id, ucitel=isTeacher)
+def load_user(user_id):
+    if session['type'] == 'teacher':
+        return app_logic.User(id=user_id, ucitel=True)
+    if session['type'] == 'student':
+        return app_logic.User(id=user_id, ucitel=False)
+    return None
 
 @app.route("/logout")
 @login_required
