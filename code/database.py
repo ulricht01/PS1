@@ -237,6 +237,13 @@ def vypis_skoly():
     connection.close()
     return result
 
+def vypis_mistnosti(id):
+    connection, cursor = otevri_spojeni()
+    cursor.execute(""" SELECT * FROM mistnosti WHERE id_ucitel = %s """, (id,))
+    result = cursor.fetchall()
+    connection.close()
+    return result
+
 def vypis_ucitele():
     connection, cursor = otevri_spojeni()
     cursor.execute("""SELECT * FROM ucitele""")

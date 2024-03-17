@@ -142,7 +142,11 @@ def create_assignment():
 @app.route("/rooms")
 @login_required
 def rooms():
-    return render_template('rooms.html')
+    rooms = database.vypis_mistnosti(current_user.id)
+    if current_user.jeUcitel:
+        return render_template('rooms_teacher.html', rooms=rooms)
+    else:
+        return render_template('rooms.html', rooms=rooms)
 
 # endpoint pro jednotlivé úkoly, zde by měl být název, info a možnost odevzdat soubor
 @app.route('/assignment')

@@ -1,11 +1,10 @@
 {% extends "template.html" %}
 {% block title%}Místnosti{% endblock %}
 {% block content %}
-    {% include "nav_menu.html" %}
     {% for room in rooms %}
         <div id="room">       
             <!-- Tlačítko pro přesměrování na danou místnost -->
-            <a href="{{ url_for('show_room', room_id=room.id) }}">Místnost: {{ room.name }}</a>
+            <a href="{{ url_for('rooms', room_id=room.id) }}">Místnost: {{ room.name }}</a>
         </div>
     {% endfor %}
 {% endblock %}

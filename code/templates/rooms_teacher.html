@@ -1,0 +1,20 @@
+{% extends "template.html" %}
+{% block title %}Místnosti{% endblock %}
+{% block content %}
+<div class="rooms-container">
+    {% for room in rooms %}
+    <div class="room">
+        <!-- Tlačítko pro přesměrování na danou místnost -->
+        <a href="{{ url_for('rooms', room_id=room.id) }}">
+            <div class="room-box">
+                Místnost: {{ room.name }}
+            </div>
+        </a>
+    </div>
+    {% if loop.index % 2 == 0 %}
+    </div>
+    <div class="rooms-container">
+    {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}
