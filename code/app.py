@@ -118,7 +118,10 @@ def create_room():
         popis_mistnosti = request.form['roomDescription']
         current_ucitel = 1
         database.pridej_mistnost(nazev_mistnosti, popis_mistnosti, current_ucitel) # Current ucitel bude hodnota ucitele, pro teď nastavena hodnota testovaciho ucitele
-    return render_template('create_room.html')
+    if current_user.jeUcitel:
+        return render_template('create_room.html')
+    else:
+        return render_template('404.html')
 
 @app.route('/create-assignment', methods=['GET', 'POST'])
 @app.route("/create-assignment")
@@ -130,16 +133,16 @@ def create_assignment():
         typ = request.form['taskType']
         current_mistnost = 1
         database.pridej_ukol(nazev_ukolu, popis_ukolu, typ, current_mistnost) # Current mistnost bude hodnota mistnosti, pro teď nastavena hodnota testovaci mistnosti
-    return render_template('create_assignment.html')
+    if current_user.jeUcitel:
+        return render_template('create_assignment.html')
+    else:
+        return render_template('404.html')
 
 # endpoint pro zobrazení místností
 @app.route("/rooms")
 @login_required
 def rooms():
-    if current_user.jeUcitel:
-        return render_template('rooms.html')
-    else:
-        return render_template('404.html')
+    return render_template('rooms.html')
 
 # endpoint pro jednotlivé úkoly, zde by měl být název, info a možnost odevzdat soubor
 @app.route('/assignment')
