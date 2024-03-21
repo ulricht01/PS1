@@ -5,9 +5,9 @@
     {% for room in rooms %}
     <div class="room">
         <!-- Tlačítko pro přesměrování na danou místnost -->
-        <a href="{{ url_for('rooms', room_id=room.id) }}">
+        <a class="room_button" href="{{ url_for('rooms', room_id=room.id) }}">
             <div class="room-box">
-                Místnost: {{ room.name }}
+                <div class="room_button_content"><span>Místnost:</span> <h3> {{ room.name }} </h3></div>
             </div>
         </a>
     </div>
