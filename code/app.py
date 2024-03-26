@@ -10,6 +10,7 @@ app.config['SECRET_KEY'] ="super secret key"
 
 loginManager = LoginManager(app)
 loginManager.login_view = 'zadani_klice_student'
+loginManager.anonymous_user = app_logic.AnonymousUser
 
 #Vytvoří první connection do mariaDB a vytvoří db
 database.vytvor_db()

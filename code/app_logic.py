@@ -3,7 +3,7 @@ import string
 import os
 import hashlib
 from werkzeug.utils import secure_filename
-from flask_login import UserMixin
+from flask_login import UserMixin, AnonymousUserMixin
 
 
 def generate_random_key(len=8):
@@ -48,3 +48,8 @@ class User(UserMixin):
     def __init__(self, id, ucitel):
         self.id = id
         self.jeUcitel = ucitel
+
+class AnonymousUser(AnonymousUserMixin):
+    def __init__(self):
+        self.jeUcitel = False
+
